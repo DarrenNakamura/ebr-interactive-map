@@ -26,6 +26,13 @@ body {
     stroke-linecap:butt;
 }
 
+.zoomButtonText {
+    fill: white;
+    dominant-baseline: middle;
+    text-anchor: middle;
+    fill-opacity: 60%;
+}
+
 .zoomButtonFunction {
     stroke-opacity: 0%;
     fill-opacity: 0%;

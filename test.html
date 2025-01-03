@@ -15,20 +15,7 @@
             <svg width="auto" height="auto" xmlns="http://www.w3.org/2000/svg" id="mapSVG">
                 <!-- Render the map -->
                 <image id="mapImage" height="4000" width="2829" x="0" y="0" href="ValleyMapOLD.jpg" transform="scale(0.5)" />
-
-                <!-- Draw the zoom buttons -->
-                <svg id="zoomButtons" width="50" height="100" x="10" y="10">
-                    <rect width="48" height="98" x="1" y="1" rx="8" ry="8" class="zoomButtonStyle" />
-                    <line x1="1" x2="49" y1="50" y2="50" class="zoomButtonStyle" />
-                    <text x="50%" y="27%" fill="white" dominant-baseline="middle" text-anchor="middle" font-size="36" fill-opacity="60%">+</text>
-                    <text x="50%" y="77%" fill="white" dominant-baseline="middle" text-anchor="middle" font-size="50" fill-opacity="60%">-</text>
-                    <!-- Set the functional button areas -->
-                    <rect width="50" height="50" x="0" y="0" class="zoomButtonFunction" onClick="zoomIn()" />
-                    <rect width="50" height="50" x="0" y="50" class="zoomButtonFunction" onClick="zoomOut()" />
-                </svg>
-
-                <!-- Create the (transparent) shapes that act as clickable location buttons -->
-                <!-- This is all actually done via JavaScript below -->
+                <!-- All of the rest of the rendering happens via script below -->
             </svg>
         </div>
 
@@ -50,23 +37,6 @@
                 let mapScale = mapTransform.replace("scale(", "");
                 return Number(mapScale.replace(")", ""));
             }
-
-            // Place the zoom buttons on the right side
-            function placeZoomButtonsOnRight() {
-                getSvgDimensions();
-                let zoomRect = document.getElementById("zoomButtons");
-                let zoomButtonWidth = Number(zoomRect.getAttribute("width"));
-                let rightPadding = 10;
-                let zoomButtonRightPositioning = svgWidth - rightPadding - zoomButtonWidth;
-                zoomButtonRightPositioning = String(zoomButtonRightPositioning);
-                zoomRect.setAttribute("x", zoomButtonRightPositioning);
-            }
-            placeZoomButtonsOnRight();
-
-            // Make sure the zoom buttons stay on the right if window is resized
-            window.onresize = function() {
-                placeZoomButtonsOnRight();
-            };
 
             // This function allows the user to move the map
             // within the svg element by clicking and dragging it
@@ -284,6 +254,99 @@
 
                 createLocationButton(locationX, locationY, locationIsPivotal, locationURL);
             }
+
+            // Create zoom buttons last so they are on top
+            function createZoomButtons() {
+                // Get the map SVG to append the zoom button SVG into
+                let svg = document.getElementById("mapSVG");
+
+                // Create SVG child that will render zoom buttons
+                let zoomButtonSVG = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+
+                // Set its starting attributes
+                zoomButtonSVG.setAttribute("id", "zoomButtons");
+                zoomButtonSVG.setAttribute("width", 50);
+                zoomButtonSVG.setAttribute("height", 100);
+                zoomButtonSVG.setAttribute("x", 10);
+                zoomButtonSVG.setAttribute("y", 10);
+
+                // Append the zoom button SVG to the map SVG
+                svg.appendChild(zoomButtonSVG);
+
+                // Fill the zoom button SVG with the elements that make it look like zoom buttons
+                // Gray rectangle with rounded corners
+                let zoomButtonRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                zoomButtonRect.setAttribute("width", 48);
+                zoomButtonRect.setAttribute("height", 98);
+                zoomButtonRect.setAttribute("x", 1);
+                zoomButtonRect.setAttribute("y", 1);
+                zoomButtonRect.setAttribute("rx", 8);
+                zoomButtonRect.setAttribute("ry", 8);
+                zoomButtonRect.setAttribute("class", "zoomButtonStyle");
+                zoomButtonSVG.appendChild(zoomButtonRect);
+                // Line separating zoom in and zoom out
+                let zoomButtonLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                zoomButtonLine.setAttribute("x1", 1);
+                zoomButtonLine.setAttribute("x2", 49);
+                zoomButtonLine.setAttribute("y1", 50);
+                zoomButtonLine.setAttribute("y2", 50);
+                zoomButtonLine.setAttribute("class", "zoomButtonStyle");
+                zoomButtonSVG.appendChild(zoomButtonLine);
+                // Plus sign
+                let zoomButtonPlus = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                zoomButtonPlus.setAttribute("x", "50%");
+                zoomButtonPlus.setAttribute("y", "27%");
+                zoomButtonPlus.setAttribute("class", "zoomButtonText");
+                zoomButtonPlus.setAttribute("font-size", 36);
+                zoomButtonPlus.textContent = "+";
+                zoomButtonSVG.appendChild(zoomButtonPlus);
+                // Minus sign
+                let zoomButtonMinus = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                zoomButtonMinus.setAttribute("x", "50%");
+                zoomButtonMinus.setAttribute("y", "77%");
+                zoomButtonMinus.setAttribute("class", "zoomButtonText");
+                zoomButtonMinus.setAttribute("font-size", 50);
+                zoomButtonMinus.textContent = "-";
+                zoomButtonSVG.appendChild(zoomButtonMinus);
+
+                // Create the functional button areas that actually respond to clicking
+                // Zoom in button
+                let zoomInFuncButton = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                zoomInFuncButton.setAttribute("width", 50);
+                zoomInFuncButton.setAttribute("height", 50);
+                zoomInFuncButton.setAttribute("x", 0);
+                zoomInFuncButton.setAttribute("y", 0);
+                zoomInFuncButton.setAttribute("class", "zoomButtonFunction");
+                zoomInFuncButton.addEventListener("click", zoomIn);
+                zoomButtonSVG.appendChild(zoomInFuncButton);
+                // Zoom out button
+                let zoomOutFuncButton = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                zoomOutFuncButton.setAttribute("width", 50);
+                zoomOutFuncButton.setAttribute("height", 50);
+                zoomOutFuncButton.setAttribute("x", 0);
+                zoomOutFuncButton.setAttribute("y", 50);
+                zoomOutFuncButton.setAttribute("class", "zoomButtonFunction");
+                zoomOutFuncButton.addEventListener("click", zoomOut);
+                zoomButtonSVG.appendChild(zoomOutFuncButton);
+            }
+            createZoomButtons();
+
+            // Place the zoom buttons on the right side
+            function placeZoomButtonsOnRight() {
+                getSvgDimensions();
+                let zoomRect = document.getElementById("zoomButtons");
+                let zoomButtonWidth = Number(zoomRect.getAttribute("width"));
+                let rightPadding = 10;
+                let zoomButtonRightPositioning = svgWidth - rightPadding - zoomButtonWidth;
+                zoomButtonRightPositioning = String(zoomButtonRightPositioning);
+                zoomRect.setAttribute("x", zoomButtonRightPositioning);
+            }
+            placeZoomButtonsOnRight();
+
+            // Make sure the zoom buttons stay on the right if window is resized
+            window.onresize = function() {
+                placeZoomButtonsOnRight();
+            };
         </script>
     </body>
 
