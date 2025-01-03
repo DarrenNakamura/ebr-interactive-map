@@ -23,6 +23,5 @@ A web-based interactive map for use alongside the cooperative adventure card gam
 * Add functionality to allow users to take notes at specific locations
 * Add functionality to allow users to search and highlight locations based on traits
 
-# Known Bugs
+# Known Bug(s)
 * Zoom in/zoom out functionality does not perfectly zoom from the center of the SVG frame. There is a strange wobble observed when zooming quickly.
-* Location buttons are rendered after zoom buttons, so when a location overlaps with the zoom buttons, zoom cannot be used.
