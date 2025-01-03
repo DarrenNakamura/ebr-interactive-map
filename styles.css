@@ -1,0 +1,50 @@
+body {
+    background-color: rgb(215, 187, 159);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: rgb(135, 67, 35);
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.hidden {
+    display: none;
+}
+
+#mapDiv {
+    text-align: center;
+    vertical-align: middle;
+    width: 98vw;
+    height: 98vh;
+}
+
+.zoomButtonStyle {
+    fill:black;
+    stroke:black;
+    stroke-width:1px;
+    fill-opacity:60%;
+    stroke-opacity:80%;
+    stroke-linecap:butt;
+}
+
+.zoomButtonFunction {
+    stroke-opacity: 0%;
+    fill-opacity: 0%;
+}
+
+.locationButton {
+    stroke-opacity: 0%;
+    fill-opacity: 0%; /* toggle this between 0% and 40% to visualize your buttons */
+    fill: red;
+}
+
+.locationButton:hover {
+    stroke-opacity: 20%;
+    fill-opacity: 20%;
+    fill: yellow;
+}
+
+.locationButton:active {
+    stroke-opacity: 40%;
+    fill-opacity: 40%;
+    fill: forestgreen;
+}

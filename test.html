@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <!-- The Earthborne Rangers Interactive Map was hand-coded by Darren Nakamura for Earthborne Games. -->
+
+    <head>
+        <title>Earthborne Rangers Interactive Maps</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="styles.css">
+        <script src="locations.js"></script>
+    </head>
+
+    <body>
+        <div id="mapDiv">
+            <svg width="auto" height="auto" xmlns="http://www.w3.org/2000/svg" id="mapSVG">
+                <!-- Render the map -->
+                <image id="mapImage" height="4000" width="2829" x="0" y="0" href="ValleyMapOLD.jpg" transform="scale(0.5)" />
+
+                <!-- Draw the zoom buttons -->
+                <svg id="zoomButtons" width="50" height="100" x="10" y="10">
+                    <rect width="48" height="98" x="1" y="1" rx="8" ry="8" class="zoomButtonStyle" />
+                    <line x1="1" x2="49" y1="50" y2="50" class="zoomButtonStyle" />
+                    <text x="50%" y="27%" fill="white" dominant-baseline="middle" text-anchor="middle" font-size="36" fill-opacity="60%">+</text>
+                    <text x="50%" y="77%" fill="white" dominant-baseline="middle" text-anchor="middle" font-size="50" fill-opacity="60%">-</text>
+                    <!-- Set the functional button areas -->
+                    <rect width="50" height="50" x="0" y="0" class="zoomButtonFunction" onClick="zoomIn()" />
+                    <rect width="50" height="50" x="0" y="50" class="zoomButtonFunction" onClick="zoomOut()" />
+                </svg>
+
+                <!-- Create the (transparent) shapes that act as clickable location buttons -->
+                <!-- This is all actually done via JavaScript below -->
+            </svg>
+        </div>
+
+        <script>
+            let svgElem = document.getElementById("mapSVG");
+            let map = document.getElementById("mapImage");
+            let svgWidth, svgHeight;
+
+            // Get the dimensions of the svg element
+            function getSvgDimensions() {
+                let svgRect = svgElem.getBoundingClientRect();
+                svgWidth = Math.round(svgRect["width"]);
+                svgHeight = Math.round(svgRect["height"]);
+            }
+
+            // Get the current scale factor of the map
+            function getScaleFactor() {
+                let mapTransform = map.getAttribute("transform");
+                let mapScale = mapTransform.replace("scale(", "");
+                return Number(mapScale.replace(")", ""));
+            }
+
+            // Place the zoom buttons on the right side
+            function placeZoomButtonsOnRight() {
+                getSvgDimensions();
+                let zoomRect = document.getElementById("zoomButtons");
+                let zoomButtonWidth = Number(zoomRect.getAttribute("width"));
+                let rightPadding = 10;
+                let zoomButtonRightPositioning = svgWidth - rightPadding - zoomButtonWidth;
+                zoomButtonRightPositioning = String(zoomButtonRightPositioning);
+                zoomRect.setAttribute("x", zoomButtonRightPositioning);
+            }
+            placeZoomButtonsOnRight();
+
+            // Make sure the zoom buttons stay on the right if window is resized
+            window.onresize = function() {
+                placeZoomButtonsOnRight();
+            };
+
+            // This function allows the user to move the map
+            // within the svg element by clicking and dragging it
+            mapSVG.onmousedown = function(event) {
+                // Get the starting coordinates of the cursor
+                let cursorStartX = event.clientX;
+                let cursorStartY = event.clientY;
+
+                // Get the starting origin coordinates and scaling of the map image
+                let mapOriginX = Number(map.getAttribute("x"));
+                let mapOriginY = Number(map.getAttribute("y"));
+                let scaleFactor = getScaleFactor();
+
+                // Modify the image coordinates using math
+                document.addEventListener("mousemove", onMouseMove);
+                function onMouseMove(event) {
+                    // Get the new coordinates of the cursor
+                    let cursorCurrentX = event.clientX;
+                    let cursorCurrentY = event.clientY;
+
+                    // Calculate movement
+                    let deltaX = Math.round((cursorCurrentX - cursorStartX) / scaleFactor);
+                    let deltaY = Math.round((cursorCurrentY - cursorStartY) / scaleFactor);
+
+                    // Update map origin
+                    mapOriginX += deltaX;
+                    mapOriginY += deltaY;
+
+                    // Update map position
+                    map.setAttribute("x", mapOriginX.toString());
+                    map.setAttribute("y", mapOriginY.toString());
+
+                    // Update starting cursor position
+                    cursorStartX = cursorCurrentX;
+                    cursorStartY = cursorCurrentY;
+                }
+
+                // Stop listening to the cursor when the user unclicks anywhere
+                document.onmouseup = function() {
+                    document.removeEventListener("mousemove", onMouseMove);
+                    updateLocationButtons();
+                };
+            };
+
+            // These functions allow the user to zoom in and out
+            function zoomIn() {
+                getSvgDimensions();
+                let mapOriginX = Number(map.getAttribute("x"));
+                let mapOriginY = Number(map.getAttribute("y"));
+                let scaleFactor = getScaleFactor();
+                let maximumScaleFactor = 1.0;
+
+                // Limit zooming in to a certain point
+                if (scaleFactor < maximumScaleFactor) {
+                    // First, change the scale factor
+                    scaleFactor += 0.1;
+                    let scaleString = "scale(" + String(scaleFactor) + ")";
+                    map.setAttribute("transform", scaleString);
+
+                    // Next, move the origin to scale from the center instead of the origin
+                    let newMapOriginX = mapOriginX + Math.round((svgWidth * (scaleFactor - 1.0) / 2.0));
+                    let newMapOriginY = mapOriginY + Math.round((svgHeight * (scaleFactor - 1.0) / 2.0));
+                    map.setAttribute("x", newMapOriginX.toString());
+                    map.setAttribute("y", newMapOriginY.toString());
+
+                    // Update location buttons
+                    updateLocationButtons();
+                }
+            }
+            function zoomOut() {
+                getSvgDimensions();
+                let mapOriginX = Number(map.getAttribute("x"));
+                let mapOriginY = Number(map.getAttribute("y"));
+                let scaleFactor = getScaleFactor();
+                let minimumScaleFactor = 0.3;
+
+                // Limit zooming out to a certain point
+                if (scaleFactor > minimumScaleFactor) {
+                    // First, change the scale factor
+                    scaleFactor -= 0.1;
+                    let scaleString = "scale(" + String(scaleFactor) + ")";
+                    map.setAttribute("transform", scaleString);
+
+                    // Next, move the origin to scale from the center instead of the origin
+                    let newMapOriginX = mapOriginX - Math.round((svgWidth * (scaleFactor - 1.0) / 2.0));
+                    let newMapOriginY = mapOriginY - Math.round((svgHeight * (scaleFactor - 1.0) / 2.0));
+                    map.setAttribute("x", newMapOriginX.toString());
+                    map.setAttribute("y", newMapOriginY.toString());
+
+                    // Update location buttons
+                    updateLocationButtons();
+                }
+            }
+
+            // This function should allow an administrator to create
+            // links for locations, given the location's coordinates on the map,
+            // the type of location, and the page it should link to
+            function createLocationButton(locationX, locationY, isPivotal, locationLink) {
+                let scaleFactor = getScaleFactor();
+                let svg = document.getElementById("mapSVG");
+
+                // Calculate center of location based on zoom factor
+                let scaledX = Math.round(locationX * scaleFactor);
+                let scaledY = Math.round(locationY * scaleFactor);
+
+                // Create the link that this button will go to
+                let newLink = document.createElementNS("http://www.w3.org/2000/svg", "a");
+                let linkText = "https://thelivingvalley.earthbornegames.com/docs/campaign_guide/" + locationLink;
+                newLink.setAttribute("href", linkText);
+                newLink.setAttribute("target", "_blank");
+                newLink.setAttribute("class", "locationLink");
+                svg.appendChild(newLink);
+
+                // If the location is pivotal, make the button a circle
+                if (isPivotal) {
+                    // Calculate the radius based on zoom factor
+                    let standardRadius = 56;
+                    let scaledRadius = Math.round(standardRadius * scaleFactor);
+
+                    // Create the circle based on current zoom and window
+                    let newCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                    newCircle.setAttribute("r", scaledRadius);
+                    newCircle.setAttribute("cx", scaledX);
+                    newCircle.setAttribute("cy", scaledY);
+                    newCircle.setAttribute("class", "locationButton circle");
+                    newCircle.setAttribute("data-x", locationX);
+                    newCircle.setAttribute("data-y", locationY);
+                    newLink.appendChild(newCircle);
+                }
+                // Otherwise, make it a square rotated 45 degrees
+                else {
+                    // Find the Y-coordinate for the top of the location
+                    let topY = (locationY - 65) * scaleFactor;
+
+                    // Calculate the square's length based on the zoom factor
+                    let standardLength = 95;
+                    let scaledLength = Math.round(standardLength * scaleFactor);
+
+                    // Create string to control 45 degree rotation about the top of the square
+                    let rotateString = "rotate(45 " + scaledX + " " + topY + ")";
+
+                    // Create the square based on the current zoom and window
+                    let newSquare = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                    newSquare.setAttribute("width", scaledLength);
+                    newSquare.setAttribute("height", scaledLength);
+                    newSquare.setAttribute("x", scaledX);
+                    newSquare.setAttribute("y", topY);
+                    newSquare.setAttribute("rx", 6); // rounded corners
+                    newSquare.setAttribute("ry", 6); // rounded corners
+                    newSquare.setAttribute("transform", rotateString);
+                    newSquare.setAttribute("class", "locationButton square");
+                    newSquare.setAttribute("data-x", locationX);
+                    newSquare.setAttribute("data-y", locationY);
+                    newLink.appendChild(newSquare);
+                }
+            }
+
+            // This function should update the position and scale of the location
+            // buttons depending on the panning/zooming of the map
+            function updateLocationButtons() {
+                // Get current map coordinates and scale factor
+                let mapOriginX = Number(map.getAttribute("x"));
+                let mapOriginY = Number(map.getAttribute("y"));
+                let scaleFactor = getScaleFactor();
+
+                // Iterate over all of the SVG children
+                for (const svgChild of svgElem.children) {
+                    // Only look at the location links
+                    if (svgChild.getAttribute("class") == "locationLink") {
+                        for (const linkChild of svgChild.children) {
+                            // Update pivotal location button positions
+                            if (linkChild.getAttribute("class") == "locationButton circle") {
+                                // Calculate
+                                let originalX = Number(linkChild.getAttribute("data-x"));
+                                let originalY = Number(linkChild.getAttribute("data-y"));
+                                let newX = Math.round((originalX + mapOriginX) * scaleFactor);
+                                let newY = Math.round((originalY + mapOriginY) * scaleFactor);
+                                let standardRadius = 56;
+                                let scaledRadius = standardRadius * scaleFactor;
+
+                                // Set attributes
+                                linkChild.setAttribute("cx", newX);
+                                linkChild.setAttribute("cy", newY);
+                                linkChild.setAttribute("r", scaledRadius);
+                            }
+                            // Update non-pivotal location button positions
+                            else if (linkChild.getAttribute("class") == "locationButton square") {
+                                // Calculate
+                                let originalX = Number(linkChild.getAttribute("data-x"));
+                                let originalY = Number(linkChild.getAttribute("data-y"));
+                                let newX = Math.round((originalX + mapOriginX) * scaleFactor);
+                                let newY = Math.round((originalY + mapOriginY - 65) * scaleFactor);
+                                let standardLength = 95;
+                                let scaledLength = Math.round(standardLength * scaleFactor);
+                                let rotateString = "rotate(45 " + newX + " " + newY + ")";
+
+                                // Set attributes
+                                linkChild.setAttribute("width", scaledLength);
+                                linkChild.setAttribute("height", scaledLength);
+                                linkChild.setAttribute("x", newX);
+                                linkChild.setAttribute("y", newY);
+                                linkChild.setAttribute("transform", rotateString);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Iterate over the location data to create buttons for each location
+            for (const location of locationData) {
+                let locationX = location["x"];
+                let locationY = location["y"];
+                let locationIsPivotal = location["isPivotal"];
+                let locationURL = location["url"];
+
+                createLocationButton(locationX, locationY, locationIsPivotal, locationURL);
+            }
+        </script>
+    </body>
+
+</html>
