@@ -55,3 +55,35 @@ body {
     fill-opacity: 40%;
     fill: forestgreen;
 }
+
+iframe {
+    display: block;
+    margin: none;
+    padding: none;
+    border: none;
+}
+
+.livingValleyBG {
+    fill: black;
+    fill-opacity: 60%;
+    stroke: black;
+    stroke-opacity: 80%;
+    stroke-width: 1px;
+    margin: none;
+    padding: none;
+    border: none;
+}
+
+.closeButtonText {
+    fill: white;
+    font-weight: bold;
+    dominant-baseline: middle;
+    text-anchor: middle;
+    fill-opacity: 60%;
+}
+
+.closeButtonFunction {
+    stroke-opacity: 0%;
+    fill-opacity: 0%;
+    fill: red; /* This is here for testing; can be removed*/
+}
