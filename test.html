@@ -144,9 +144,9 @@
 
                 // Create the link that this button will go to
                 let newLink = document.createElementNS("http://www.w3.org/2000/svg", "a");
-                let linkText = "https://thelivingvalley.earthbornegames.com/docs/campaign_guide/" + locationLink;
-                newLink.setAttribute("href", linkText);
-                newLink.setAttribute("target", "_blank");
+                let linkStr = "createLivingValleyPopUp('" + locationLink + "')";
+                newLink.setAttribute("href", "javascript:null");
+                newLink.setAttribute("onclick", linkStr);
                 newLink.setAttribute("class", "locationLink");
                 svg.appendChild(newLink);
 
@@ -350,7 +350,12 @@
 
             // This function will create an iframe with the Living Valley
             // entry corresponding to the location clicked, overlaid on the map
-            function createLivingValleyFrame(locationURL) {
+            function createLivingValleyPopUp(locationURL) {
+                // If there is already a frame open, we need to destroy it first
+                if (document.getElementById("livingValleySVG")) {
+                    destroyLivingValleyPopUp();
+                }
+                
                 // Build the pop up that will contain the Living Valley iframe
                 // First the SVG to contain all of these things
                 let livingValleySVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -410,7 +415,6 @@
                 iFrameContainer.appendChild(livingValleyFrame);
                 svgElem.appendChild(iFrameContainer);
             }
-            createLivingValleyFrame("lone_tree_station");
 
             // This function will destroy the iframe with the Living Valley
             // entry and its corresponding graphical accompaniments
