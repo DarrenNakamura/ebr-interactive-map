@@ -347,6 +347,35 @@
             window.onresize = function() {
                 placeZoomButtonsOnRight();
             };
+
+            // Build the pop up that will contain the Living Valley iframe
+            let livingValleyPopUp = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+            livingValleyPopUp.setAttribute("height", 550);
+            livingValleyPopUp.setAttribute("width", 400);
+            livingValleyPopUp.setAttribute("x", 10);
+            livingValleyPopUp.setAttribute("y", 10);
+            livingValleyPopUp.setAttribute("rx", 8);
+            livingValleyPopUp.setAttribute("ry", 8);
+            livingValleyPopUp.setAttribute("class", "livingValleyPopUp");
+            svgElem.appendChild(livingValleyPopUp);
+
+            let iFrameContainer = document.createElementNS("http://www.w3.org/2000/svg", "foreignObject");
+
+            // Set size and position
+            iFrameContainer.setAttribute("height", 490);
+            iFrameContainer.setAttribute("width", 380);
+            iFrameContainer.setAttribute("x", 20);
+            iFrameContainer.setAttribute("y", 60);
+            iFrameContainer.setAttribute("class", "iFrameContainer");
+
+            // Create iframe to Living Valley entry
+            let livingValleyFrame = document.createElement("iframe");
+            livingValleyFrame.src = "https://thelivingvalley.earthbornegames.com/docs/campaign_guide/lone_tree_station";
+            livingValleyFrame.width ="100%";
+            livingValleyFrame.height ="100%";
+
+            iFrameContainer.appendChild(livingValleyFrame);
+            svgElem.appendChild(iFrameContainer);
         </script>
     </body>
 
