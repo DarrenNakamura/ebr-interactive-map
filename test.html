@@ -387,7 +387,7 @@
                 closeButton.setAttribute("x", 350);
                 closeButton.setAttribute("y", 0);
                 closeButton.setAttribute("class", "closeButtonFunction");
-                //closeButton.addEventListener("click", zoomOut);
+                closeButton.addEventListener("click", destroyLivingValleyPopUp);
                 livingValleySVG.appendChild(closeButton);
 
                 let iFrameContainer = document.createElementNS("http://www.w3.org/2000/svg", "foreignObject");
@@ -410,17 +410,19 @@
                 iFrameContainer.appendChild(livingValleyFrame);
                 svgElem.appendChild(iFrameContainer);
             }
-            //createLivingValleyFrame("lone_tree_station");
+            createLivingValleyFrame("lone_tree_station");
 
             // This function will destroy the iframe with the Living Valley
             // entry and its corresponding graphical accompaniments
-            function destroyLivingValleyPopUp(svgID, iframeID) {
-                let svg = document.getElementById(svgID);
+            function destroyLivingValleyPopUp() {
+                // Remove the SVG element holding the graphics
+                let svg = document.getElementById("livingValleySVG");
                 svg.parentNode.removeChild(svg);
-                let frame = document.getElementById(iframeID);
+
+                // Remove the iframe element holding the external website
+                let frame = document.getElementById("livingValleyFrame");
                 frame.parentNode.removeChild(frame);
             }
-            //destroyLivingValleyPopUp("livingValleySVG", "livingValleyFrame");
         </script>
     </body>
 
