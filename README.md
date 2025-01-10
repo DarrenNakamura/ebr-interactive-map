@@ -1,4 +1,4 @@
-[interactive map screenshot showing Living Valley iframe](iframeScreenshot.png)
+![interactive map screenshot showing Living Valley iframe](iframeScreenshot.png)
 
 # ebr-interactive-map
 A web-based interactive map for use alongside the cooperative adventure card game Earthborne Rangers
