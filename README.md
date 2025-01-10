@@ -1,3 +1,5 @@
+[interactive map screenshot showing Living Valley iframe](iframeScreenshot.png)
+
 # ebr-interactive-map
 A web-based interactive map for use alongside the cooperative adventure card game Earthborne Rangers
 
@@ -12,7 +14,7 @@ A web-based interactive map for use alongside the cooperative adventure card gam
 * Map can be panned by clicking and dragging
 * Map can be zoomed in and out by clicking the zoom buttons in the top right
 * Each location has an invisible button that highlights when hovered/clicked
-* When clicked, each location opens a new tab with the corresponding Living Valley entry
+* When clicked, each location opens an iframe with the corresponding Living Valley entry in it
 
 # Potential Features (TODO)
 * Get newer version of map
