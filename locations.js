@@ -11,7 +11,8 @@ var locationData = [
         "trait1"     : "Pivotal",
         "trait2"     : "Forest",
         "trait3"     : "Ranger Station",
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "White Sky",
@@ -25,7 +26,8 @@ var locationData = [
         "trait1"     : "Pivotal",
         "trait2"     : "Water",
         "trait3"     : "Trail",
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "Northern Outpost",
@@ -39,7 +41,8 @@ var locationData = [
         "trait1"     : "Pivotal",
         "trait2"     : "Ranger Station",
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "Spire",
@@ -53,7 +56,8 @@ var locationData = [
         "trait1"     : "Pivotal",
         "trait2"     : "Trail",
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "Branch",
@@ -67,7 +71,8 @@ var locationData = [
         "trait1"     : "Pivotal",
         "trait2"     : "Forest",
         "trait3"     : "Trail",
-        "trait4"     : "Ascent"
+        "trait4"     : "Ascent",
+        "trait5"     : null
     },
     {
         "name"       : "The Fractured Wall",
@@ -81,7 +86,8 @@ var locationData = [
         "trait1"     : "Pivotal",
         "trait2"     : "Ruin",
         "trait3"     : "Water",
-        "trait4"     : "Ascent"
+        "trait4"     : "Ascent",
+        "trait5"     : null
     },
     {
         "name"       : "Meadow",
@@ -95,7 +101,8 @@ var locationData = [
         "trait1"     : "Pivotal",
         "trait2"     : "Field",
         "trait3"     : "Trail",
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "Marsh of Rebirth",
@@ -109,7 +116,8 @@ var locationData = [
         "trait1"     : "Pivotal",
         "trait2"     : "Water",
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "Tumbledown",
@@ -123,7 +131,8 @@ var locationData = [
         "trait1"     : "Pivotal",
         "trait2"     : "Mountain",
         "trait3"     : "Water",
-        "trait4"     : "Trail"
+        "trait4"     : "Trail",
+        "trait5"     : null
     },
     {
         "name"       : "Atrox Mountain",
@@ -137,7 +146,8 @@ var locationData = [
         "trait1"     : "Mountain",
         "trait2"     : "Ascent",
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "Golden Shore",
@@ -151,7 +161,8 @@ var locationData = [
         "trait1"     : "Water",
         "trait2"     : "Trail",
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "Mount Nim",
@@ -165,7 +176,8 @@ var locationData = [
         "trait1"     : "Mountain",
         "trait2"     : "Ascent",
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "Boulder Field",
@@ -179,7 +191,8 @@ var locationData = [
         "trait1"     : "Field",
         "trait2"     : "Trail",
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "Ancestor's Grove",
@@ -193,7 +206,8 @@ var locationData = [
         "trait1"     : "Forest",
         "trait2"     : "Trail",
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "Kobo's Market",
@@ -207,7 +221,8 @@ var locationData = [
         "trait1"     : "Water",
         "trait2"     : "Trail",
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "The Philosopher's Garden",
@@ -221,7 +236,8 @@ var locationData = [
         "trait1"     : "Forest",
         "trait2"     : "Trail",
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "The High Basin",
@@ -235,7 +251,8 @@ var locationData = [
         "trait1"     : "Forest",
         "trait2"     : "Water",
         "trait3"     : "Trail",
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "The Plummet",
@@ -249,7 +266,8 @@ var locationData = [
         "trait1"     : "Mountain",
         "trait2"     : "Ascent",
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "Crossroads Station",
@@ -263,7 +281,8 @@ var locationData = [
         "trait1"     : "Trail",
         "trait2"     : "Ranger Station",
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "The Furrow",
@@ -277,7 +296,8 @@ var locationData = [
         "trait1"     : "Mountain",
         "trait2"     : "Trail",
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "Biological Outpost",
@@ -291,7 +311,8 @@ var locationData = [
         "trait1"     : "Forest",
         "trait2"     : "Ranger Station",
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "Headwaters Station",
@@ -305,7 +326,8 @@ var locationData = [
         "trait1"     : "Water",
         "trait2"     : "Trail",
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "Greenbriar Knoll",
@@ -319,7 +341,8 @@ var locationData = [
         "trait1"     : "Field",
         "trait2"     : "Ruin",
         "trait3"     : "Trail",
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "The Concordant Ziggurats",
@@ -333,7 +356,8 @@ var locationData = [
         "trait1"     : "Ruin",
         "trait2"     : null,
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "Stoneweaver Bridge",
@@ -347,7 +371,8 @@ var locationData = [
         "trait1"     : "Water",
         "trait2"     : "Trail",
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "Mound of the Navigator",
@@ -361,7 +386,8 @@ var locationData = [
         "trait1"     : "Mountain",
         "trait2"     : "Trail",
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "Terravore",
@@ -375,7 +401,8 @@ var locationData = [
         "trait1"     : "Biomeld",
         "trait2"     : null,
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "The Greenbridge",
@@ -389,7 +416,8 @@ var locationData = [
         "trait1"     : "Water",
         "trait2"     : "Trail",
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "Michael's Bog",
@@ -403,7 +431,8 @@ var locationData = [
         "trait1"     : "Water",
         "trait2"     : null,
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "The Cypress Citadel",
@@ -417,7 +446,8 @@ var locationData = [
         "trait1"     : "Forest",
         "trait2"     : "Water",
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "The Frowning Gate",
@@ -431,7 +461,8 @@ var locationData = [
         "trait1"     : "Water",
         "trait2"     : "Trail",
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "Sunken Outpost",
@@ -445,7 +476,8 @@ var locationData = [
         "trait1"     : "Water",
         "trait2"     : "Ruin",
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "Archaeological Outpost",
@@ -459,7 +491,8 @@ var locationData = [
         "trait1"     : "Trail",
         "trait2"     : "Ranger Station",
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "Rings of the Moon",
@@ -473,7 +506,8 @@ var locationData = [
         "trait1"     : "Ruin",
         "trait2"     : null,
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "Alluvial Ruins",
@@ -487,7 +521,8 @@ var locationData = [
         "trait1"     : "Ruin",
         "trait2"     : "Trail",
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "Bowl of the Sun",
@@ -501,7 +536,8 @@ var locationData = [
         "trait1"     : "Mountain",
         "trait2"     : "Trail",
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     },
     {
         "name"       : "Watcher's Rock",
@@ -515,6 +551,7 @@ var locationData = [
         "trait1"     : "Mountain",
         "trait2"     : "Trail",
         "trait3"     : null,
-        "trait4"     : null
+        "trait4"     : null,
+        "trait5"     : null
     }
 ];
