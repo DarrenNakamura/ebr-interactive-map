@@ -36,6 +36,15 @@ body {
 .zoomButtonFunction {
     stroke-opacity: 0%;
     fill-opacity: 0%;
+    fill: white;
+}
+
+.zoomButtonFunction:hover {
+    fill-opacity: 20%;
+}
+
+.zoomButtonFunction:active {
+    fill-opacity: 40%;
 }
 
 .locationButton {
@@ -85,5 +94,13 @@ iframe {
 .closeButtonFunction {
     stroke-opacity: 0%;
     fill-opacity: 0%;
-    fill: red; /* This is here for testing; can be removed*/
+    fill: white;
+}
+
+.closeButtonFunction:hover {
+    fill-opacity: 20%;
+}
+
+.closeButtonFunction:active {
+    fill-opacity: 40%;
 }
