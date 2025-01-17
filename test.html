@@ -83,12 +83,18 @@
 
             let isDragging = false;
             let startX, startY;
+            let mapOriginX, mapOriginY, scaleFactor;
 
             function startDrag(event) {
                 isDragging = true;
                 const touch = event.touches ? event.touches[0] : event;
-                startX = touch.clientX - mapSVG.getBoundingClientRect().left;
-                startY = touch.clientY - mapSVG.getBoundingClientRect().top;
+                startX = touch.clientX/* - mapSVG.getBoundingClientRect().left*/;
+                startY = touch.clientY/* - mapSVG.getBoundingClientRect().top*/;
+
+                // Get the starting origin coordinates and scaling of the map image
+                mapOriginX = Number(map.getAttribute("x"));
+                mapOriginY = Number(map.getAttribute("y"));
+                scaleFactor = getScaleFactor();
                 console.log("startDrag() executed");
             }
 
@@ -97,16 +103,32 @@
 
                 event.preventDefault();
                 const touch = event.touches ? event.touches[0] : event;
-                const newX = touch.clientX - mapSVG.getBoundingClientRect().left - startX;
-                const newY = touch.clientY - mapSVG.getBoundingClientRect().top - startY;
 
-                mapSVG.setAttribute("x", newX);
-                mapSVG.setAttribute("y", newY);
+                // Get the new coordinates of the cursor
+                let cursorCurrentX = touch.clientX;
+                let cursorCurrentY = touch.clientY;
+
+                // Calculate movement
+                let deltaX = Math.round((cursorCurrentX - startX) / scaleFactor);
+                let deltaY = Math.round((cursorCurrentY - startY) / scaleFactor);
+
+                // Update map origin
+                mapOriginX += deltaX;
+                mapOriginY += deltaY;
+
+                // Update map position
+                map.setAttribute("x", mapOriginX.toString());
+                map.setAttribute("y", mapOriginY.toString());
+
+                // Update starting cursor position
+                startX = cursorCurrentX;
+                startY = cursorCurrentY;
                 console.log("drag() executed");
             }
 
             function endDrag(event) {
                 isDragging = false;
+                updateLocationButtons();
                 console.log("endDrag() executed");
             }
 
