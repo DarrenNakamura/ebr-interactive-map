@@ -11,7 +11,7 @@ A web-based interactive map for use alongside the cooperative adventure card gam
 
 # Current Features
 * Valley map is rendered via SVG
-* Map can be panned by clicking and dragging
+* Map can be panned by clicking and dragging or by touching and dragging
 * Map can be zoomed in and out by clicking the zoom buttons in the top right or by using scroll wheel
 * Each location has an invisible button that highlights when hovered/clicked
 * When clicked, each location opens an iframe with the corresponding Living Valley entry in it
