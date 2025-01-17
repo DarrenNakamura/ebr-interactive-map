@@ -20,7 +20,6 @@ A web-based interactive map for use alongside the cooperative adventure card gam
 * Get newer version of map
 * Add map overlays from expansions
 * Add menu to toggle expansions
-* Add iframe for Living Valley entry (replace new tab functionality)
 * Add animation (zoom in, zoom out, menu open, menu close, open Living Valley iframe, automatically pan map to bring Living Valley iframe into view)
 * Add functionality to allow users to take notes at specific locations
 * Add functionality to allow users to search and highlight locations based on traits
