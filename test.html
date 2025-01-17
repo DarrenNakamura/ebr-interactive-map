@@ -38,7 +38,7 @@
                 return Number(mapScale.replace(")", ""));
             }
 
-            // This function allows the user to move the map
+            /*// This function allows the user to move the map
             // within the svg element by clicking and dragging it
             mapSVG.onmousedown = function(event) {
                 // Get the starting coordinates of the cursor
@@ -79,7 +79,46 @@
                     document.removeEventListener("mousemove", onMouseMove);
                     updateLocationButtons();
                 };
-            };
+            };*/
+
+            let isDragging = false;
+            let startX, startY;
+
+            function startDrag(event) {
+                isDragging = true;
+                const touch = event.touches ? event.touches[0] : event;
+                startX = touch.clientX - mapSVG.getBoundingClientRect().left;
+                startY = touch.clientY - mapSVG.getBoundingClientRect().top;
+                console.log("startDrag() executed");
+            }
+
+            function drag(event) {
+                if (!isDragging) return;
+
+                event.preventDefault();
+                const touch = event.touches ? event.touches[0] : event;
+                const newX = touch.clientX - mapSVG.getBoundingClientRect().left - startX;
+                const newY = touch.clientY - mapSVG.getBoundingClientRect().top - startY;
+
+                mapSVG.setAttribute("x", newX);
+                mapSVG.setAttribute("y", newY);
+                console.log("drag() executed");
+            }
+
+            function endDrag(event) {
+                isDragging = false;
+                console.log("endDrag() executed");
+            }
+
+            mapSVG.addEventListener("mousedown", startDrag);
+            mapSVG.addEventListener("mousemove", drag);
+            mapSVG.addEventListener("mouseup", endDrag);
+            mapSVG.addEventListener("mouseleave", endDrag);
+
+            mapSVG.addEventListener("touchstart", startDrag);
+            mapSVG.addEventListener("touchmove", drag);
+            mapSVG.addEventListener("touchend", endDrag);
+            mapSVG.addEventListener("touchcancel", endDrag);
 
             // These functions allow the user to zoom in and out
             function zoomIn() {
