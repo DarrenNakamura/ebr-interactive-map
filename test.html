@@ -38,75 +38,38 @@
                 return Number(mapScale.replace(")", ""));
             }
 
-            /*// This function allows the user to move the map
-            // within the svg element by clicking and dragging it
-            mapSVG.onmousedown = function(event) {
-                // Get the starting coordinates of the cursor
-                let cursorStartX = event.clientX;
-                let cursorStartY = event.clientY;
-
-                // Get the starting origin coordinates and scaling of the map image
-                let mapOriginX = Number(map.getAttribute("x"));
-                let mapOriginY = Number(map.getAttribute("y"));
-                let scaleFactor = getScaleFactor();
-
-                // Modify the image coordinates using math
-                document.addEventListener("mousemove", onMouseMove);
-                function onMouseMove(event) {
-                    // Get the new coordinates of the cursor
-                    let cursorCurrentX = event.clientX;
-                    let cursorCurrentY = event.clientY;
-
-                    // Calculate movement
-                    let deltaX = Math.round((cursorCurrentX - cursorStartX) / scaleFactor);
-                    let deltaY = Math.round((cursorCurrentY - cursorStartY) / scaleFactor);
-
-                    // Update map origin
-                    mapOriginX += deltaX;
-                    mapOriginY += deltaY;
-
-                    // Update map position
-                    map.setAttribute("x", mapOriginX.toString());
-                    map.setAttribute("y", mapOriginY.toString());
-
-                    // Update starting cursor position
-                    cursorStartX = cursorCurrentX;
-                    cursorStartY = cursorCurrentY;
-                }
-
-                // Stop listening to the cursor when the user unclicks anywhere
-                document.onmouseup = function() {
-                    document.removeEventListener("mousemove", onMouseMove);
-                    updateLocationButtons();
-                };
-            };*/
-
+            // The following three functions allow the user to move the map
+            // within the svg element by clicking/touching and dragging it
             let isDragging = false;
             let startX, startY;
             let mapOriginX, mapOriginY, scaleFactor;
 
             function startDrag(event) {
                 isDragging = true;
-                const touch = event.touches ? event.touches[0] : event;
-                startX = touch.clientX/* - mapSVG.getBoundingClientRect().left*/;
-                startY = touch.clientY/* - mapSVG.getBoundingClientRect().top*/;
+
+                // Check if we're using a cursor or touch screen
+                const cursor = event.touches ? event.touches[0] : event;
+                startX = cursor.clientX;
+                startY = cursor.clientY;
 
                 // Get the starting origin coordinates and scaling of the map image
                 mapOriginX = Number(map.getAttribute("x"));
                 mapOriginY = Number(map.getAttribute("y"));
                 scaleFactor = getScaleFactor();
-                console.log("startDrag() executed");
             }
 
             function drag(event) {
                 if (!isDragging) return;
 
+                // Prevent scrolling
                 event.preventDefault();
-                const touch = event.touches ? event.touches[0] : event;
+
+                // Check whether the user is using a cursor or touch screen
+                const cursor = event.touches ? event.touches[0] : event;
 
                 // Get the new coordinates of the cursor
-                let cursorCurrentX = touch.clientX;
-                let cursorCurrentY = touch.clientY;
+                let cursorCurrentX = cursor.clientX;
+                let cursorCurrentY = cursor.clientY;
 
                 // Calculate movement
                 let deltaX = Math.round((cursorCurrentX - startX) / scaleFactor);
@@ -123,20 +86,20 @@
                 // Update starting cursor position
                 startX = cursorCurrentX;
                 startY = cursorCurrentY;
-                console.log("drag() executed");
             }
 
             function endDrag(event) {
                 isDragging = false;
                 updateLocationButtons();
-                console.log("endDrag() executed");
             }
 
+            // Add event listeners for traditional cursors
             mapSVG.addEventListener("mousedown", startDrag);
             mapSVG.addEventListener("mousemove", drag);
             mapSVG.addEventListener("mouseup", endDrag);
             mapSVG.addEventListener("mouseleave", endDrag);
 
+            // Add event listeners for touch screens
             mapSVG.addEventListener("touchstart", startDrag);
             mapSVG.addEventListener("touchmove", drag);
             mapSVG.addEventListener("touchend", endDrag);
