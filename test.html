@@ -115,16 +115,19 @@
 
                 // Limit zooming in to a certain point
                 if (scaleFactor < maximumScaleFactor) {
-                    // First, change the scale factor
-                    scaleFactor += 0.1;
-                    let scaleString = "scale(" + String(scaleFactor) + ")";
-                    map.setAttribute("transform", scaleString);
-
-                    // Next, move the origin to scale from the center instead of the origin
-                    let newMapOriginX = mapOriginX + Math.round((svgWidth * (scaleFactor - 1.0) / 2.0));
-                    let newMapOriginY = mapOriginY + Math.round((svgHeight * (scaleFactor - 1.0) / 2.0));
+                    // First, move the map up and to the left by the correct amount
+                    let scaleDelta = 0.1;
+                    let deltaX = (0.5 * svgWidth) * (scaleDelta / (scaleFactor + scaleDelta)) * (1.0 / scaleFactor);
+                    let deltaY = (0.5 * svgHeight) * (scaleDelta / (scaleFactor + scaleDelta)) * (1.0 / scaleFactor);
+                    let newMapOriginX = mapOriginX - deltaX;
+                    let newMapOriginY = mapOriginY - deltaY;
                     map.setAttribute("x", newMapOriginX.toString());
                     map.setAttribute("y", newMapOriginY.toString());
+
+                    // Then, scale the map from the top left corner
+                    scaleFactor += scaleDelta;
+                    let scaleString = "scale(" + String(scaleFactor) + ")";
+                    map.setAttribute("transform", scaleString);
 
                     // Update location buttons
                     updateLocationButtons();
@@ -139,16 +142,19 @@
 
                 // Limit zooming out to a certain point
                 if (scaleFactor > minimumScaleFactor) {
-                    // First, change the scale factor
-                    scaleFactor -= 0.1;
-                    let scaleString = "scale(" + String(scaleFactor) + ")";
-                    map.setAttribute("transform", scaleString);
-
-                    // Next, move the origin to scale from the center instead of the origin
-                    let newMapOriginX = mapOriginX - Math.round((svgWidth * (scaleFactor - 1.0) / 2.0));
-                    let newMapOriginY = mapOriginY - Math.round((svgHeight * (scaleFactor - 1.0) / 2.0));
+                    // First, move the map down and to the right by the correct amount
+                    let scaleDelta = 0.1;
+                    let deltaX = (0.5 * svgWidth) * (scaleDelta / (scaleFactor - scaleDelta)) * (1.0 / scaleFactor);
+                    let deltaY = (0.5 * svgHeight) * (scaleDelta / (scaleFactor - scaleDelta)) * (1.0 / scaleFactor);
+                    let newMapOriginX = mapOriginX + deltaX;
+                    let newMapOriginY = mapOriginY + deltaY;
                     map.setAttribute("x", newMapOriginX.toString());
                     map.setAttribute("y", newMapOriginY.toString());
+
+                    // Then, scale the map from the top left corner
+                    scaleFactor -= scaleDelta;
+                    let scaleString = "scale(" + String(scaleFactor) + ")";
+                    map.setAttribute("transform", scaleString);
 
                     // Update location buttons
                     updateLocationButtons();
