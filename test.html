@@ -443,18 +443,66 @@
                 menuFuncButton.setAttribute("rx", 8);
                 menuFuncButton.setAttribute("ry", 8);
                 menuFuncButton.setAttribute("class", "menuButtonFunction");
-                //menuFuncButton.addEventListener("click", openMenu);
+                menuFuncButton.addEventListener("click", openMenu);
                 menuButtonSVG.appendChild(menuFuncButton);
             }
             createMenuButton();
 
             // Functions to open (create) and close (destroy) the menu overlay
             function openMenu() {
+                // If the menu is already open, do nothing and return
+                if (document.getElementById("menuSVG") != null)
+                    return;
 
+                // If there is a Living Valley popup open and the svg width is too
+                // low to support both popups, close the Living Valley popup
+                getSvgDimensions();
+                if (document.getElementById("livingValleySVG") != null && svgWidth < 830)
+                    destroyLivingValleyPopUp();
+
+                // Finally, let's create the menu, starting with its dimensions
+                let menuSVGWidth = Math.min(400, svgWidth - 80);
+                let menuSVGHeight = Math.min(550, svgHeight - 20);
+                let menuBGWidth = menuSVGWidth;
+                let menuBGHeight = menuSVGHeight;
+
+                // Create the SVG where the menu will live
+                let menuSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                menuSVG.setAttribute("width", menuSVGWidth);
+                menuSVG.setAttribute("height", menuSVGHeight);
+                menuSVG.setAttribute("x", 10);
+                menuSVG.setAttribute("y", 10);
+                menuSVG.setAttribute("id", "menuSVG");
+                svgElem.appendChild(menuSVG);
+
+                // Create the background for the menu
+                let menuBG = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                menuBG.setAttribute("width", menuBGWidth);
+                menuBG.setAttribute("height", menuBGHeight);
+                menuBG.setAttribute("x", 0);
+                menuBG.setAttribute("y", 0);
+                menuBG.setAttribute("rx", 8);
+                menuBG.setAttribute("ry", 8);
+                menuBG.setAttribute("class", "menuBG");
+                menuSVG.appendChild(menuBG);
+
+                // Overlay menu button to be able to close the menu
+                let menuCloseButton = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                menuCloseButton.setAttribute("width", 48);
+                menuCloseButton.setAttribute("height", 48);
+                menuCloseButton.setAttribute("x", 1);
+                menuCloseButton.setAttribute("y", 1);
+                menuCloseButton.setAttribute("rx", 8);
+                menuCloseButton.setAttribute("ry", 8);
+                menuCloseButton.setAttribute("class", "menuCloseButtonFunction");
+                menuCloseButton.addEventListener("click", closeMenu);
+                menuSVG.appendChild(menuCloseButton);
             }
 
             function closeMenu() {
-
+                // Remove the SVG element holding the graphics
+                let svg = document.getElementById("menuSVG");
+                svg.parentNode.removeChild(svg);
             }
 
             // This function will create an iframe with the Living Valley

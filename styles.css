@@ -45,6 +45,31 @@ body {
     fill-opacity: 40%;
 }
 
+.menuBG {
+    fill: black;
+    fill-opacity: 60%;
+    stroke: black;
+    stroke-opacity: 80%;
+    stroke-width: 1px;
+    margin: none;
+    padding: none;
+    border: none;
+}
+
+.menuCloseButtonFunction {
+    stroke-opacity: 0%;
+    fill-opacity: 20%;
+    fill: white;
+}
+
+.menuCloseButtonFunction:hover {
+    fill-opacity: 40%;
+}
+
+.menuCloseButtonFunction:active {
+    fill-opacity: 60%;
+}
+
 .zoomButtonStyle {
     fill:black;
     stroke:black;
