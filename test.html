@@ -382,6 +382,72 @@
             }
             placeZoomButtonsOnRight();
 
+            // This function creates the menu button in the top right
+            function createMenuButton() {
+                // Get the map SVG to append the penu button SVG into
+                let svg = document.getElementById("mapSVG");
+
+                // Create the SVG that will render the menu button
+                let menuButtonSVG = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+
+                // Set its starting attributes
+                menuButtonSVG.setAttribute("id", "menuButton");
+                menuButtonSVG.setAttribute("width", 50);
+                menuButtonSVG.setAttribute("height", 50);
+                menuButtonSVG.setAttribute("x", 10);
+                menuButtonSVG.setAttribute("y", 10);
+
+                // Append the menu button to the parent SVG
+                svg.appendChild(menuButtonSVG);
+
+                // Fill the menu button SVG with the elements that make it look like a menu button
+                // Gray rectangle with rounded corners
+                let menuButtonRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                menuButtonRect.setAttribute("width", 48);
+                menuButtonRect.setAttribute("height", 48);
+                menuButtonRect.setAttribute("x", 1);
+                menuButtonRect.setAttribute("y", 1);
+                menuButtonRect.setAttribute("rx", 8);
+                menuButtonRect.setAttribute("ry", 8);
+                menuButtonRect.setAttribute("class", "menuButtonStyle");
+                menuButtonSVG.appendChild(menuButtonRect);
+                // Three horizontal bars forming the "hamburger"
+                let menuBarTop = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                menuBarTop.setAttribute("x", 11);
+                menuBarTop.setAttribute("y", 13);
+                menuBarTop.setAttribute("width", 28);
+                menuBarTop.setAttribute("height", 5);
+                menuBarTop.setAttribute("class", "menuButtonText");
+                menuButtonSVG.appendChild(menuBarTop);
+                let menuBarMiddle = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                menuBarMiddle.setAttribute("x", 11);
+                menuBarMiddle.setAttribute("y", 23);
+                menuBarMiddle.setAttribute("width", 28);
+                menuBarMiddle.setAttribute("height", 5);
+                menuBarMiddle.setAttribute("class", "menuButtonText");
+                menuButtonSVG.appendChild(menuBarMiddle);
+                let menuBarBottom = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                menuBarBottom.setAttribute("x", 11);
+                menuBarBottom.setAttribute("y", 33);
+                menuBarBottom.setAttribute("width", 28);
+                menuBarBottom.setAttribute("height", 5);
+                menuBarBottom.setAttribute("class", "menuButtonText");
+                menuButtonSVG.appendChild(menuBarBottom);
+
+                // Create the functional button area that actually responds to clicking
+                let menuFuncButton = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                menuFuncButton.setAttribute("width", 48);
+                menuFuncButton.setAttribute("height", 48);
+                menuFuncButton.setAttribute("x", 1);
+                menuFuncButton.setAttribute("y", 1);
+                menuFuncButton.setAttribute("rx", 8);
+                menuFuncButton.setAttribute("ry", 8);
+                menuFuncButton.setAttribute("class", "menuButtonFunction");
+                //menuFuncButton.addEventListener("click", openMenu);
+                menuButtonSVG.appendChild(menuFuncButton);
+            }
+            createMenuButton();
+
             // This function will create an iframe with the Living Valley
             // entry corresponding to the location clicked, overlaid on the map
             function createLivingValleyPopUp(locationURL) {

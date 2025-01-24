@@ -17,6 +17,34 @@ body {
     height: 98vh;
 }
 
+.menuButtonStyle {
+    fill:black;
+    stroke:black;
+    stroke-width:1px;
+    fill-opacity:60%;
+    stroke-opacity:80%;
+    stroke-linecap:butt;
+}
+
+.menuButtonText {
+    fill: white;
+    fill-opacity: 60%;
+}
+
+.menuButtonFunction {
+    stroke-opacity: 0%;
+    fill-opacity: 0%;
+    fill: white;
+}
+
+.menuButtonFunction:hover {
+    fill-opacity: 20%;
+}
+
+.menuButtonFunction:active {
+    fill-opacity: 40%;
+}
+
 .zoomButtonStyle {
     fill:black;
     stroke:black;
