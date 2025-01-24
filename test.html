@@ -468,6 +468,8 @@
                 // We have to make sure this fits on the user's screen;
                 // some phones have a width as low as 320px
                 getSvgDimensions();
+
+                // Default size is 400x550, but it could be smaller depending on the user's device
                 let livingValleySVGWidth = Math.min(400, svgWidth - 20);
                 let livingValleySVGHeight = Math.min(550, svgHeight - 130);
                 let livingValleyBGWidth = livingValleySVGWidth;
@@ -521,8 +523,6 @@
                 // Set size and position
                 iFrameContainer.setAttribute("width", livingValleyFrameWidth);
                 iFrameContainer.setAttribute("height", livingValleyFrameHeight);
-                iFrameContainer.setAttribute("x", 20);
-                iFrameContainer.setAttribute("y", 60);
                 iFrameContainer.setAttribute("class", "iFrameContainer");
                 iFrameContainer.setAttribute("id", "livingValleyFrame");
 
