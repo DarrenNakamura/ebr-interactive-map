@@ -26,4 +26,4 @@ A web-based interactive map for use alongside the cooperative adventure card gam
 * Add functionality to allow users to search and highlight locations based on traits
 
 # Known Bug(s)
-* When menu is open, cursor actions (e.g., click and drag, scroll) still affect the map underneath it.
+* None!

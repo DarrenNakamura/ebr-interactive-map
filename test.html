@@ -59,6 +59,13 @@
             }
 
             function drag(event) {
+                // Check to make sure the cursor isn't over an open menu div
+                let menu = document.getElementById("menuDivID");
+                if (menu != null) {
+                    if (menu.matches(":hover"))
+                        return;
+                }
+                
                 if (!isDragging) return;
 
                 // Prevent scrolling
