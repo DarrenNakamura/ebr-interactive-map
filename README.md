@@ -25,4 +25,4 @@ A web-based interactive map for use alongside the cooperative adventure card gam
 * Add functionality to allow users to search and highlight locations based on traits
 
 # Known Bug(s)
-* Zoom in/zoom out functionality does not perfectly zoom from the center of the SVG frame. There is a strange wobble observed when zooming quickly.
+* None!
