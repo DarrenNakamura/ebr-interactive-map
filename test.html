@@ -382,46 +382,6 @@
             }
             placeZoomButtonsOnRight();
 
-            // Function to place the Living Valley popup on bottom-right
-            function placeLivingValleyPopUp() {
-                // If there isn't a Living Valley popup, just return
-                if (!document.getElementById("livingValleySVG"))
-                    return;
-
-                // Otherwise, put the Living Valley popup on the bottom right
-                getSvgDimensions();
-
-                // First, place the popup background
-                let livingValleyBG = document.getElementById("livingValleySVG");
-                let lvWidth = livingValleyBG.getAttribute("width");
-                let lvHeight = livingValleyBG.getAttribute("height");
-                let rightBGPadding = 10;
-                let bottomBGPadding = 10;
-
-                let lvbgHorizPosition = svgWidth - rightBGPadding - lvWidth;
-                let lvbgVertPosition = svgHeight - bottomBGPadding - lvHeight;
-                livingValleyBG.setAttribute("x", lvbgHorizPosition);
-                livingValleyBG.setAttribute("y", lvbgVertPosition);
-
-                // Second, place the popup iframe
-                let livingValleyIFrame = document.getElementById("livingValleyFrame");
-                let iframeWidth = livingValleyIFrame.getAttribute("width");
-                let iframeHeight = livingValleyIFrame.getAttribute("height");
-                let rightFramePadding = 10;
-                let bottomFramePadding = 10;
-
-                let lvIFrameHorizPosition = svgWidth - rightBGPadding - rightFramePadding - iframeWidth;
-                let lvIFrameVertPosition = svgHeight - bottomBGPadding - bottomFramePadding - iframeHeight;
-                livingValleyIFrame.setAttribute("x", lvIFrameHorizPosition);
-                livingValleyIFrame.setAttribute("y", lvIFrameVertPosition);
-            }
-
-            // Make sure the zoom buttons and Living Valley popup stay on the right if window is resized
-            window.onresize = function() {
-                placeZoomButtonsOnRight();
-                placeLivingValleyPopUp();
-            };
-
             // This function will create an iframe with the Living Valley
             // entry corresponding to the location clicked, overlaid on the map
             function createLivingValleyPopUp(locationURL) {
@@ -506,6 +466,46 @@
                 let frame = document.getElementById("livingValleyFrame");
                 frame.parentNode.removeChild(frame);
             }
+
+            // Function to place the Living Valley popup on bottom-right
+            function placeLivingValleyPopUp() {
+                // If there isn't a Living Valley popup, just return
+                if (!document.getElementById("livingValleySVG"))
+                    return;
+
+                // Otherwise, put the Living Valley popup on the bottom right
+                getSvgDimensions();
+
+                // First, place the popup background
+                let livingValleyBG = document.getElementById("livingValleySVG");
+                let lvWidth = livingValleyBG.getAttribute("width");
+                let lvHeight = livingValleyBG.getAttribute("height");
+                let rightBGPadding = 10;
+                let bottomBGPadding = 10;
+
+                let lvbgHorizPosition = svgWidth - rightBGPadding - lvWidth;
+                let lvbgVertPosition = svgHeight - bottomBGPadding - lvHeight;
+                livingValleyBG.setAttribute("x", lvbgHorizPosition);
+                livingValleyBG.setAttribute("y", lvbgVertPosition);
+
+                // Second, place the popup iframe
+                let livingValleyIFrame = document.getElementById("livingValleyFrame");
+                let iframeWidth = livingValleyIFrame.getAttribute("width");
+                let iframeHeight = livingValleyIFrame.getAttribute("height");
+                let rightFramePadding = 10;
+                let bottomFramePadding = 10;
+
+                let lvIFrameHorizPosition = svgWidth - rightBGPadding - rightFramePadding - iframeWidth;
+                let lvIFrameVertPosition = svgHeight - bottomBGPadding - bottomFramePadding - iframeHeight;
+                livingValleyIFrame.setAttribute("x", lvIFrameHorizPosition);
+                livingValleyIFrame.setAttribute("y", lvIFrameVertPosition);
+            }
+
+            // Make sure the zoom buttons and Living Valley popup stay on the right if window is resized
+            window.onresize = function() {
+                placeZoomButtonsOnRight();
+                placeLivingValleyPopUp();
+            };
         </script>
     </body>
 
