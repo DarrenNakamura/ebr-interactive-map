@@ -497,6 +497,32 @@
                 menuCloseButton.setAttribute("class", "menuCloseButtonFunction");
                 menuCloseButton.addEventListener("click", closeMenu);
                 menuSVG.appendChild(menuCloseButton);
+
+                // Create the space where we can do regular HTML
+                let menuHTMLArea = document.createElementNS("http://www.w3.org/2000/svg", "foreignObject");
+                let htmlAreaWidth = menuBGWidth - 20;
+                let htmlAreaHeight = menuBGHeight - 70;
+                menuHTMLArea.setAttribute("width", htmlAreaWidth);
+                menuHTMLArea.setAttribute("height", htmlAreaHeight);
+                menuHTMLArea.setAttribute("x", 10);
+                menuHTMLArea.setAttribute("y", 60);
+                menuHTMLArea.setAttribute("class", "menuHTMLArea");
+                menuSVG.appendChild(menuHTMLArea);
+
+                // Make a div in that space
+                let menuDiv = document.createElement("div");
+                menuDiv.setAttribute("width", "100%");
+                menuDiv.setAttribute("height", "100%");
+                menuDiv.setAttribute("class", "menuDiv");
+                menuHTMLArea.appendChild(menuDiv);
+
+                // Fill the div with dummy content
+                let dummyString = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis mollis";
+                dummyString += " mi ut ultricies. Nullam magna ipsum, porta vel dui convallis, rutrum";
+                dummyString += " imperdiet eros. Aliquam erat volutpat."
+                for (let i = 0; i < 10; i++) {
+                    menuDiv.append(dummyString, " ");
+                }
             }
 
             function closeMenu() {
