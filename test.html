@@ -448,6 +448,15 @@
             }
             createMenuButton();
 
+            // Functions to open (create) and close (destroy) the menu overlay
+            function openMenu() {
+
+            }
+
+            function closeMenu() {
+
+            }
+
             // This function will create an iframe with the Living Valley
             // entry corresponding to the location clicked, overlaid on the map
             function createLivingValleyPopUp(locationURL) {
@@ -455,12 +464,22 @@
                 if (document.getElementById("livingValleySVG")) {
                     destroyLivingValleyPopUp();
                 }
+
+                // We have to make sure this fits on the user's screen;
+                // some phones have a width as low as 320px
+                getSvgDimensions();
+                let livingValleySVGWidth = Math.min(400, svgWidth - 20);
+                let livingValleySVGHeight = Math.min(550, svgHeight - 130);
+                let livingValleyBGWidth = livingValleySVGWidth;
+                let livingValleyBGHeight = livingValleySVGHeight;
+                let livingValleyFrameWidth = livingValleySVGWidth - 20;
+                let livingValleyFrameHeight = livingValleySVGHeight - 60;
                 
                 // Build the pop up that will contain the Living Valley iframe
                 // First the SVG to contain all of these things
                 let livingValleySVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                livingValleySVG.setAttribute("height", 550);
-                livingValleySVG.setAttribute("width", 400);
+                livingValleySVG.setAttribute("width", livingValleySVGWidth);
+                livingValleySVG.setAttribute("height", livingValleySVGHeight);
                 livingValleySVG.setAttribute("x", 10);
                 livingValleySVG.setAttribute("y", 10);
                 livingValleySVG.setAttribute("id", "livingValleySVG");
@@ -468,8 +487,8 @@
 
                 // First the background rectangle
                 let livingValleyBG = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-                livingValleyBG.setAttribute("width", 400);
-                livingValleyBG.setAttribute("height", 550);
+                livingValleyBG.setAttribute("width", livingValleyBGWidth);
+                livingValleyBG.setAttribute("height", livingValleyBGHeight);
                 livingValleyBG.setAttribute("x", 0);
                 livingValleyBG.setAttribute("y", 0);
                 livingValleyBG.setAttribute("rx", 8);
@@ -479,7 +498,7 @@
 
                 // Add the close button's text
                 let closeButtonX = document.createElementNS("http://www.w3.org/2000/svg", "text");
-                closeButtonX.setAttribute("x", 375);
+                closeButtonX.setAttribute("x", livingValleySVGWidth - 25);
                 closeButtonX.setAttribute("y", 25);
                 closeButtonX.setAttribute("class", "closeButtonText");
                 closeButtonX.setAttribute("font-size", 36);
@@ -489,7 +508,7 @@
                 let closeButton = document.createElementNS("http://www.w3.org/2000/svg", "rect");
                 closeButton.setAttribute("width", 48);
                 closeButton.setAttribute("height", 48);
-                closeButton.setAttribute("x", 351);
+                closeButton.setAttribute("x", livingValleySVGWidth - 49);
                 closeButton.setAttribute("y", 1);
                 closeButton.setAttribute("rx", 8);
                 closeButton.setAttribute("ry", 8);
@@ -500,8 +519,8 @@
                 let iFrameContainer = document.createElementNS("http://www.w3.org/2000/svg", "foreignObject");
 
                 // Set size and position
-                iFrameContainer.setAttribute("width", 380);
-                iFrameContainer.setAttribute("height", 490);
+                iFrameContainer.setAttribute("width", livingValleyFrameWidth);
+                iFrameContainer.setAttribute("height", livingValleyFrameHeight);
                 iFrameContainer.setAttribute("x", 20);
                 iFrameContainer.setAttribute("y", 60);
                 iFrameContainer.setAttribute("class", "iFrameContainer");
