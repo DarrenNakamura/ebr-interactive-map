@@ -10,11 +10,11 @@
         <script src="locations.js"></script>
     </head>
 
-    <body id="valleyBody">
+    <body id="arcologyBody">
         <div id="mapDiv">
             <svg width="auto" height="auto" xmlns="http://www.w3.org/2000/svg" id="mapSVG">
                 <!-- Render the map -->
-                <image id="mapImage" width="2846" height="4000" x="0" y="0" href="EBR001_Valley Map_eng.jpg" transform="scale(0.5)" />
+                <image id="mapImage" width="2751" height="7016" x="0" y="0" href="EBR023_Deluxe LotA Map_eng.jpg" transform="scale(0.5)" />
                 <!-- All of the rest of the rendering happens via script below -->
             </svg>
         </div>
@@ -297,7 +297,7 @@
             // Iterate over the location data to create buttons for each location
             for (const location of locationData) {
                 // Only create location buttons for locations on this map
-                if (location["set"] == "valleyBase") {
+                if (location["set"] == "legacyArcology") {
                     let locationX = location["x"];
                     let locationY = location["y"];
                     let locationIsPivotal = location["isPivotal"];
@@ -534,11 +534,11 @@
                 menuHTMLArea.appendChild(menuDiv);
 
                 // Fill the div with content
-                let arcologyLink = document.createElement("a");
-                arcologyLink.setAttribute("href", "arcology_map.html");
-                let arcologyLinkText = "Legacy of the Ancestors map";
-                arcologyLink.append(arcologyLinkText);
-                menuDiv.appendChild(arcologyLink);
+                let valleyLink = document.createElement("a");
+                valleyLink.setAttribute("href", "valley_map.html");
+                let valleyLinkText = "Lure of the Valley map";
+                valleyLink.append(valleyLinkText);
+                menuDiv.appendChild(valleyLink);
             }
 
             function closeMenu() {

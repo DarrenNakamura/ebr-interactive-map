@@ -1,7 +1,15 @@
-body {
-    background-color: rgb(215, 187, 159);
+#valleyBody {
+    background-color: rgb(241, 208, 177);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    color: rgb(135, 67, 35);
+    color: rgb(93, 45, 25);
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+#arcologyBody {
+    background-color: rgb(53, 77, 87);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: rgb(236, 208, 168);
     overflow-x: hidden;
     overflow-y: hidden;
 }
