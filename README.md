@@ -18,7 +18,6 @@ A web-based interactive map for use alongside the cooperative adventure card gam
 * Menu button opens a menu to toggle options
 
 # Potential Features (TODO)
-* Get newer version of map
 * Add map overlays from expansions
 * Add options in menu
 * Add animation (zoom in, zoom out, menu open, menu close, open Living Valley iframe, automatically pan map to bring Living Valley iframe into view)
