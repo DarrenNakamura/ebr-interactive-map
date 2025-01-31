@@ -202,7 +202,7 @@
                 // If the location is pivotal, make the button a circle
                 if (isPivotal) {
                     // Calculate the radius based on zoom factor
-                    let standardRadius = 56;
+                    let standardRadius = 88;
                     let scaledRadius = Math.round(standardRadius * scaleFactor);
 
                     // Create the circle based on current zoom and window
@@ -218,10 +218,10 @@
                 // Otherwise, make it a square rotated 45 degrees
                 else {
                     // Find the Y-coordinate for the top of the location
-                    let topY = (locationY - 65) * scaleFactor;
+                    let topY = (locationY - 99) * scaleFactor;
 
                     // Calculate the square's length based on the zoom factor
-                    let standardLength = 95;
+                    let standardLength = 143;
                     let scaledLength = Math.round(standardLength * scaleFactor);
 
                     // Create string to control 45 degree rotation about the top of the square
@@ -233,8 +233,8 @@
                     newSquare.setAttribute("height", scaledLength);
                     newSquare.setAttribute("x", scaledX);
                     newSquare.setAttribute("y", topY);
-                    newSquare.setAttribute("rx", 6); // rounded corners
-                    newSquare.setAttribute("ry", 6); // rounded corners
+                    newSquare.setAttribute("rx", 9); // rounded corners
+                    newSquare.setAttribute("ry", 9); // rounded corners
                     newSquare.setAttribute("transform", rotateString);
                     newSquare.setAttribute("class", "locationButton square");
                     newSquare.setAttribute("data-x", locationX);
@@ -263,7 +263,7 @@
                                 let originalY = Number(linkChild.getAttribute("data-y"));
                                 let newX = Math.round((originalX + mapOriginX) * scaleFactor);
                                 let newY = Math.round((originalY + mapOriginY) * scaleFactor);
-                                let standardRadius = 56;
+                                let standardRadius = 88;
                                 let scaledRadius = standardRadius * scaleFactor;
 
                                 // Set attributes
@@ -277,8 +277,8 @@
                                 let originalX = Number(linkChild.getAttribute("data-x"));
                                 let originalY = Number(linkChild.getAttribute("data-y"));
                                 let newX = Math.round((originalX + mapOriginX) * scaleFactor);
-                                let newY = Math.round((originalY + mapOriginY - 65) * scaleFactor);
-                                let standardLength = 94;
+                                let newY = Math.round((originalY + mapOriginY - 99) * scaleFactor);
+                                let standardLength = 143;
                                 let scaledLength = Math.round(standardLength * scaleFactor);
                                 let rotateString = "rotate(45 " + newX + " " + newY + ")";
 
