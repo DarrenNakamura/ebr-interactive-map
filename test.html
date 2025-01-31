@@ -101,16 +101,16 @@
             }
 
             // Add event listeners for traditional cursors
-            mapSVG.addEventListener("mousedown", startDrag);
-            mapSVG.addEventListener("mousemove", drag);
-            mapSVG.addEventListener("mouseup", endDrag);
-            mapSVG.addEventListener("mouseleave", endDrag);
+            svgElem.addEventListener("mousedown", startDrag);
+            svgElem.addEventListener("mousemove", drag);
+            svgElem.addEventListener("mouseup", endDrag);
+            svgElem.addEventListener("mouseleave", endDrag);
 
             // Add event listeners for touch screens
-            mapSVG.addEventListener("touchstart", startDrag);
-            mapSVG.addEventListener("touchmove", drag);
-            mapSVG.addEventListener("touchend", endDrag);
-            mapSVG.addEventListener("touchcancel", endDrag);
+            svgElem.addEventListener("touchstart", startDrag);
+            svgElem.addEventListener("touchmove", drag);
+            svgElem.addEventListener("touchend", endDrag);
+            svgElem.addEventListener("touchcancel", endDrag);
 
             // These functions allow the user to zoom in and out
             function zoomIn() {
