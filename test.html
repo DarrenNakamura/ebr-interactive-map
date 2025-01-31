@@ -14,7 +14,7 @@
         <div id="mapDiv">
             <svg width="auto" height="auto" xmlns="http://www.w3.org/2000/svg" id="mapSVG">
                 <!-- Render the map -->
-                <image id="mapImage" height="4000" width="2829" x="0" y="0" href="ValleyMapOLD.jpg" transform="scale(0.5)" />
+                <image id="mapImage" width="2846" height="4000" x="0" y="0" href="EBR001_Valley Map_eng.jpg" transform="scale(0.5)" />
                 <!-- All of the rest of the rendering happens via script below -->
             </svg>
         </div>
@@ -278,7 +278,7 @@
                                 let originalY = Number(linkChild.getAttribute("data-y"));
                                 let newX = Math.round((originalX + mapOriginX) * scaleFactor);
                                 let newY = Math.round((originalY + mapOriginY - 65) * scaleFactor);
-                                let standardLength = 95;
+                                let standardLength = 94;
                                 let scaledLength = Math.round(standardLength * scaleFactor);
                                 let rotateString = "rotate(45 " + newX + " " + newY + ")";
 
