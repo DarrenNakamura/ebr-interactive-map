@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <!-- The Earthborne Rangers Interactive Map was hand-coded by Darren Nakamura for Earthborne Games. -->
+
+    <head>
+        <title>Earthborne Rangers Interactive Maps</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="styles.css">
+        <script src="locations.js"></script>
+    </head>
+
+    <body>
+        <div id="mapDiv">
+            <svg width="auto" height="auto" xmlns="http://www.w3.org/2000/svg" id="mapSVG">
+                <!-- Render the map -->
+                <image id="mapImage" width="2846" height="4000" x="0" y="0" href="EBR001_Valley Map_eng.jpg" transform="scale(0.5)" />
+                <!-- All of the rest of the rendering happens via script below -->
+            </svg>
+        </div>
+
+        <script>
+            let svgElem = document.getElementById("mapSVG");
+            let map = document.getElementById("mapImage");
+            let svgWidth, svgHeight;
+
+            // Get the dimensions of the svg element
+            function getSvgDimensions() {
+                let svgRect = svgElem.getBoundingClientRect();
+                svgWidth = Math.round(svgRect["width"]);
+                svgHeight = Math.round(svgRect["height"]);
+            }
+
+            // Get the current scale factor of the map
+            function getScaleFactor() {
+                let mapTransform = map.getAttribute("transform");
+                let mapScale = mapTransform.replace("scale(", "");
+                return Number(mapScale.replace(")", ""));
+            }
+
+            // The following three functions allow the user to move the map
+            // within the svg element by clicking/touching and dragging it
+            let isDragging = false;
+            let startX, startY;
+            let mapOriginX, mapOriginY, scaleFactor;
+
+            function startDrag(event) {
+                isDragging = true;
+
+                // Check if we're using a cursor or touch screen
+                const cursor = event.touches ? event.touches[0] : event;
+                startX = cursor.clientX;
+                startY = cursor.clientY;
+
+                // Get the starting origin coordinates and scaling of the map image
+                mapOriginX = Number(map.getAttribute("x"));
+                mapOriginY = Number(map.getAttribute("y"));
+                scaleFactor = getScaleFactor();
+            }
+
+            function drag(event) {
+                // Check to make sure the cursor isn't over an open menu div
+                let menu = document.getElementById("menuDivID");
+                if (menu != null) {
+                    if (menu.matches(":hover"))
+                        return;
+                }
+                
+                if (!isDragging) return;
+
+                // Prevent scrolling
+                event.preventDefault();
+
+                // Check whether the user is using a cursor or touch screen
+                const cursor = event.touches ? event.touches[0] : event;
+
+                // Get the new coordinates of the cursor
+                let cursorCurrentX = cursor.clientX;
+                let cursorCurrentY = cursor.clientY;
+
+                // Calculate movement
+                let deltaX = Math.round((cursorCurrentX - startX) / scaleFactor);
+                let deltaY = Math.round((cursorCurrentY - startY) / scaleFactor);
+
+                // Update map origin
+                mapOriginX += deltaX;
+                mapOriginY += deltaY;
+
+                // Update map position
+                map.setAttribute("x", mapOriginX.toString());
+                map.setAttribute("y", mapOriginY.toString());
+
+                // Update starting cursor position
+                startX = cursorCurrentX;
+                startY = cursorCurrentY;
+            }
+
+            function endDrag(event) {
+                isDragging = false;
+                updateLocationButtons();
+            }
+
+            // Add event listeners for traditional cursors
+            svgElem.addEventListener("mousedown", startDrag);
+            svgElem.addEventListener("mousemove", drag);
+            svgElem.addEventListener("mouseup", endDrag);
+            svgElem.addEventListener("mouseleave", endDrag);
+
+            // Add event listeners for touch screens
+            svgElem.addEventListener("touchstart", startDrag);
+            svgElem.addEventListener("touchmove", drag);
+            svgElem.addEventListener("touchend", endDrag);
+            svgElem.addEventListener("touchcancel", endDrag);
+
+            // These functions allow the user to zoom in and out
+            function zoomIn() {
+                getSvgDimensions();
+                let mapOriginX = Number(map.getAttribute("x"));
+                let mapOriginY = Number(map.getAttribute("y"));
+                let scaleFactor = getScaleFactor();
+                let maximumScaleFactor = 1.0;
+
+                // Limit zooming in to a certain point
+                if (scaleFactor < maximumScaleFactor) {
+                    // First, move the map up and to the left by the correct amount
+                    let scaleDelta = 0.1;
+                    let deltaX = (0.5 * svgWidth) * (scaleDelta / (scaleFactor + scaleDelta)) * (1.0 / scaleFactor);
+                    let deltaY = (0.5 * svgHeight) * (scaleDelta / (scaleFactor + scaleDelta)) * (1.0 / scaleFactor);
+                    let newMapOriginX = mapOriginX - deltaX;
+                    let newMapOriginY = mapOriginY - deltaY;
+                    map.setAttribute("x", newMapOriginX.toString());
+                    map.setAttribute("y", newMapOriginY.toString());
+
+                    // Then, scale the map from the top left corner
+                    scaleFactor += scaleDelta;
+                    let scaleString = "scale(" + String(scaleFactor) + ")";
+                    map.setAttribute("transform", scaleString);
+
+                    // Update location buttons
+                    updateLocationButtons();
+                }
+            }
+            function zoomOut() {
+                getSvgDimensions();
+                let mapOriginX = Number(map.getAttribute("x"));
+                let mapOriginY = Number(map.getAttribute("y"));
+                let scaleFactor = getScaleFactor();
+                let minimumScaleFactor = 0.3;
+
+                // Limit zooming out to a certain point
+                if (scaleFactor > minimumScaleFactor) {
+                    // First, move the map down and to the right by the correct amount
+                    let scaleDelta = 0.1;
+                    let deltaX = (0.5 * svgWidth) * (scaleDelta / (scaleFactor - scaleDelta)) * (1.0 / scaleFactor);
+                    let deltaY = (0.5 * svgHeight) * (scaleDelta / (scaleFactor - scaleDelta)) * (1.0 / scaleFactor);
+                    let newMapOriginX = mapOriginX + deltaX;
+                    let newMapOriginY = mapOriginY + deltaY;
+                    map.setAttribute("x", newMapOriginX.toString());
+                    map.setAttribute("y", newMapOriginY.toString());
+
+                    // Then, scale the map from the top left corner
+                    scaleFactor -= scaleDelta;
+                    let scaleString = "scale(" + String(scaleFactor) + ")";
+                    map.setAttribute("transform", scaleString);
+
+                    // Update location buttons
+                    updateLocationButtons();
+                }
+            }
+
+            // This lets the scroll wheel zoom in and out
+            mapSVG.addEventListener("wheel", (event) => {
+                // Check to make sure the cursor isn't over an open menu div
+                let menu = document.getElementById("menuDivID");
+                if (menu != null) {
+                    if (menu.matches(":hover"))
+                        return;
+                }
+                if(event.deltaY > 0) zoomOut();
+                else if(event.deltaY < 0) zoomIn();
+            });
+
+            // This function should allow an administrator to create
+            // links for locations, given the location's coordinates on the map,
+            // the type of location, and the page it should link to
+            function createLocationButton(locationX, locationY, isPivotal, locationLink) {
+                let scaleFactor = getScaleFactor();
+                let svg = document.getElementById("mapSVG");
+
+                // Calculate center of location based on zoom factor
+                let scaledX = Math.round(locationX * scaleFactor);
+                let scaledY = Math.round(locationY * scaleFactor);
+
+                // Create the link that this button will go to
+                let newLink = document.createElementNS("http://www.w3.org/2000/svg", "a");
+                let linkStr = "createLivingValleyPopUp('" + locationLink + "')";
+                newLink.setAttribute("href", "javascript:null");
+                newLink.setAttribute("onclick", linkStr);
+                newLink.setAttribute("class", "locationLink");
+                svg.appendChild(newLink);
+
+                // If the location is pivotal, make the button a circle
+                if (isPivotal) {
+                    // Calculate the radius based on zoom factor
+                    let standardRadius = 56;
+                    let scaledRadius = Math.round(standardRadius * scaleFactor);
+
+                    // Create the circle based on current zoom and window
+                    let newCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                    newCircle.setAttribute("r", scaledRadius);
+                    newCircle.setAttribute("cx", scaledX);
+                    newCircle.setAttribute("cy", scaledY);
+                    newCircle.setAttribute("class", "locationButton circle");
+                    newCircle.setAttribute("data-x", locationX);
+                    newCircle.setAttribute("data-y", locationY);
+                    newLink.appendChild(newCircle);
+                }
+                // Otherwise, make it a square rotated 45 degrees
+                else {
+                    // Find the Y-coordinate for the top of the location
+                    let topY = (locationY - 65) * scaleFactor;
+
+                    // Calculate the square's length based on the zoom factor
+                    let standardLength = 95;
+                    let scaledLength = Math.round(standardLength * scaleFactor);
+
+                    // Create string to control 45 degree rotation about the top of the square
+                    let rotateString = "rotate(45 " + scaledX + " " + topY + ")";
+
+                    // Create the square based on the current zoom and window
+                    let newSquare = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                    newSquare.setAttribute("width", scaledLength);
+                    newSquare.setAttribute("height", scaledLength);
+                    newSquare.setAttribute("x", scaledX);
+                    newSquare.setAttribute("y", topY);
+                    newSquare.setAttribute("rx", 6); // rounded corners
+                    newSquare.setAttribute("ry", 6); // rounded corners
+                    newSquare.setAttribute("transform", rotateString);
+                    newSquare.setAttribute("class", "locationButton square");
+                    newSquare.setAttribute("data-x", locationX);
+                    newSquare.setAttribute("data-y", locationY);
+                    newLink.appendChild(newSquare);
+                }
+            }
+
+            // This function should update the position and scale of the location
+            // buttons depending on the panning/zooming of the map
+            function updateLocationButtons() {
+                // Get current map coordinates and scale factor
+                let mapOriginX = Number(map.getAttribute("x"));
+                let mapOriginY = Number(map.getAttribute("y"));
+                let scaleFactor = getScaleFactor();
+
+                // Iterate over all of the SVG children
+                for (const svgChild of svgElem.children) {
+                    // Only look at the location links
+                    if (svgChild.getAttribute("class") == "locationLink") {
+                        for (const linkChild of svgChild.children) {
+                            // Update pivotal location button positions
+                            if (linkChild.getAttribute("class") == "locationButton circle") {
+                                // Calculate
+                                let originalX = Number(linkChild.getAttribute("data-x"));
+                                let originalY = Number(linkChild.getAttribute("data-y"));
+                                let newX = Math.round((originalX + mapOriginX) * scaleFactor);
+                                let newY = Math.round((originalY + mapOriginY) * scaleFactor);
+                                let standardRadius = 56;
+                                let scaledRadius = standardRadius * scaleFactor;
+
+                                // Set attributes
+                                linkChild.setAttribute("cx", newX);
+                                linkChild.setAttribute("cy", newY);
+                                linkChild.setAttribute("r", scaledRadius);
+                            }
+                            // Update non-pivotal location button positions
+                            else if (linkChild.getAttribute("class") == "locationButton square") {
+                                // Calculate
+                                let originalX = Number(linkChild.getAttribute("data-x"));
+                                let originalY = Number(linkChild.getAttribute("data-y"));
+                                let newX = Math.round((originalX + mapOriginX) * scaleFactor);
+                                let newY = Math.round((originalY + mapOriginY - 65) * scaleFactor);
+                                let standardLength = 94;
+                                let scaledLength = Math.round(standardLength * scaleFactor);
+                                let rotateString = "rotate(45 " + newX + " " + newY + ")";
+
+                                // Set attributes
+                                linkChild.setAttribute("width", scaledLength);
+                                linkChild.setAttribute("height", scaledLength);
+                                linkChild.setAttribute("x", newX);
+                                linkChild.setAttribute("y", newY);
+                                linkChild.setAttribute("transform", rotateString);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Iterate over the location data to create buttons for each location
+            for (const location of locationData) {
+                let locationX = location["x"];
+                let locationY = location["y"];
+                let locationIsPivotal = location["isPivotal"];
+                let locationURL = location["url"];
+
+                createLocationButton(locationX, locationY, locationIsPivotal, locationURL);
+            }
+
+            // Create zoom buttons last so they are on top
+            function createZoomButtons() {
+                // Get the map SVG to append the zoom button SVG into
+                let svg = document.getElementById("mapSVG");
+
+                // Create SVG child that will render zoom buttons
+                let zoomButtonSVG = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+
+                // Set its starting attributes
+                zoomButtonSVG.setAttribute("id", "zoomButtons");
+                zoomButtonSVG.setAttribute("width", 50);
+                zoomButtonSVG.setAttribute("height", 100);
+                zoomButtonSVG.setAttribute("x", 10);
+                zoomButtonSVG.setAttribute("y", 10);
+
+                // Append the zoom button SVG to the map SVG
+                svg.appendChild(zoomButtonSVG);
+
+                // Fill the zoom button SVG with the elements that make it look like zoom buttons
+                // Gray rectangle with rounded corners
+                let zoomButtonRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                zoomButtonRect.setAttribute("width", 48);
+                zoomButtonRect.setAttribute("height", 98);
+                zoomButtonRect.setAttribute("x", 1);
+                zoomButtonRect.setAttribute("y", 1);
+                zoomButtonRect.setAttribute("rx", 8);
+                zoomButtonRect.setAttribute("ry", 8);
+                zoomButtonRect.setAttribute("class", "zoomButtonStyle");
+                zoomButtonSVG.appendChild(zoomButtonRect);
+                // Line separating zoom in and zoom out
+                let zoomButtonLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                zoomButtonLine.setAttribute("x1", 1);
+                zoomButtonLine.setAttribute("x2", 49);
+                zoomButtonLine.setAttribute("y1", 50);
+                zoomButtonLine.setAttribute("y2", 50);
+                zoomButtonLine.setAttribute("class", "zoomButtonStyle");
+                zoomButtonSVG.appendChild(zoomButtonLine);
+                // Plus sign
+                let zoomButtonPlus = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                zoomButtonPlus.setAttribute("x", "50%");
+                zoomButtonPlus.setAttribute("y", "27%");
+                zoomButtonPlus.setAttribute("class", "zoomButtonText");
+                zoomButtonPlus.setAttribute("font-size", 36);
+                zoomButtonPlus.textContent = "+";
+                zoomButtonSVG.appendChild(zoomButtonPlus);
+                // Minus sign
+                let zoomButtonMinus = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                zoomButtonMinus.setAttribute("x", "50%");
+                zoomButtonMinus.setAttribute("y", "77%");
+                zoomButtonMinus.setAttribute("class", "zoomButtonText");
+                zoomButtonMinus.setAttribute("font-size", 50);
+                zoomButtonMinus.textContent = "-";
+                zoomButtonSVG.appendChild(zoomButtonMinus);
+
+                // Create the functional button areas that actually respond to clicking
+                // Zoom in button
+                let zoomInFuncButton = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                zoomInFuncButton.setAttribute("width", 48);
+                zoomInFuncButton.setAttribute("height", 48);
+                zoomInFuncButton.setAttribute("x", 1);
+                zoomInFuncButton.setAttribute("y", 1);
+                zoomInFuncButton.setAttribute("rx", 8);
+                zoomInFuncButton.setAttribute("ry", 8);
+                zoomInFuncButton.setAttribute("class", "zoomButtonFunction");
+                zoomInFuncButton.addEventListener("click", zoomIn);
+                zoomButtonSVG.appendChild(zoomInFuncButton);
+                // Zoom out button
+                let zoomOutFuncButton = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                zoomOutFuncButton.setAttribute("width", 48);
+                zoomOutFuncButton.setAttribute("height", 48);
+                zoomOutFuncButton.setAttribute("x", 1);
+                zoomOutFuncButton.setAttribute("y", 51);
+                zoomOutFuncButton.setAttribute("rx", 8);
+                zoomOutFuncButton.setAttribute("ry", 8);
+                zoomOutFuncButton.setAttribute("class", "zoomButtonFunction");
+                zoomOutFuncButton.addEventListener("click", zoomOut);
+                zoomButtonSVG.appendChild(zoomOutFuncButton);
+            }
+            createZoomButtons();
+
+            // Place the zoom buttons on the right side
+            function placeZoomButtonsOnRight() {
+                getSvgDimensions();
+                let zoomRect = document.getElementById("zoomButtons");
+                let zoomButtonWidth = Number(zoomRect.getAttribute("width"));
+                let rightPadding = 10;
+                let zoomButtonHorizPositioning = svgWidth - rightPadding - zoomButtonWidth;
+                zoomRect.setAttribute("x", zoomButtonHorizPositioning);
+            }
+            placeZoomButtonsOnRight();
+
+            // This function creates the menu button in the top right
+            function createMenuButton() {
+                // Get the map SVG to append the penu button SVG into
+                let svg = document.getElementById("mapSVG");
+
+                // Create the SVG that will render the menu button
+                let menuButtonSVG = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+
+                // Set its starting attributes
+                menuButtonSVG.setAttribute("id", "menuButton");
+                menuButtonSVG.setAttribute("width", 50);
+                menuButtonSVG.setAttribute("height", 50);
+                menuButtonSVG.setAttribute("x", 10);
+                menuButtonSVG.setAttribute("y", 10);
+
+                // Append the menu button to the parent SVG
+                svg.appendChild(menuButtonSVG);
+
+                // Fill the menu button SVG with the elements that make it look like a menu button
+                // Gray rectangle with rounded corners
+                let menuButtonRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                menuButtonRect.setAttribute("width", 48);
+                menuButtonRect.setAttribute("height", 48);
+                menuButtonRect.setAttribute("x", 1);
+                menuButtonRect.setAttribute("y", 1);
+                menuButtonRect.setAttribute("rx", 8);
+                menuButtonRect.setAttribute("ry", 8);
+                menuButtonRect.setAttribute("class", "menuButtonStyle");
+                menuButtonSVG.appendChild(menuButtonRect);
+                // Three horizontal bars forming the "hamburger"
+                let menuBarTop = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                menuBarTop.setAttribute("x", 11);
+                menuBarTop.setAttribute("y", 13);
+                menuBarTop.setAttribute("width", 28);
+                menuBarTop.setAttribute("height", 5);
+                menuBarTop.setAttribute("class", "menuButtonText");
+                menuButtonSVG.appendChild(menuBarTop);
+                let menuBarMiddle = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                menuBarMiddle.setAttribute("x", 11);
+                menuBarMiddle.setAttribute("y", 23);
+                menuBarMiddle.setAttribute("width", 28);
+                menuBarMiddle.setAttribute("height", 5);
+                menuBarMiddle.setAttribute("class", "menuButtonText");
+                menuButtonSVG.appendChild(menuBarMiddle);
+                let menuBarBottom = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                menuBarBottom.setAttribute("x", 11);
+                menuBarBottom.setAttribute("y", 33);
+                menuBarBottom.setAttribute("width", 28);
+                menuBarBottom.setAttribute("height", 5);
+                menuBarBottom.setAttribute("class", "menuButtonText");
+                menuButtonSVG.appendChild(menuBarBottom);
+
+                // Create the functional button area that actually responds to clicking
+                let menuFuncButton = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                menuFuncButton.setAttribute("width", 48);
+                menuFuncButton.setAttribute("height", 48);
+                menuFuncButton.setAttribute("x", 1);
+                menuFuncButton.setAttribute("y", 1);
+                menuFuncButton.setAttribute("rx", 8);
+                menuFuncButton.setAttribute("ry", 8);
+                menuFuncButton.setAttribute("class", "menuButtonFunction");
+                menuFuncButton.addEventListener("click", openMenu);
+                menuButtonSVG.appendChild(menuFuncButton);
+            }
+            createMenuButton();
+
+            // Functions to open (create) and close (destroy) the menu overlay
+            function openMenu() {
+                // If the menu is already open, do nothing and return
+                if (document.getElementById("menuSVG") != null)
+                    return;
+
+                // If there is a Living Valley popup open and the svg width is too
+                // low to support both popups, close the Living Valley popup
+                getSvgDimensions();
+                if (document.getElementById("livingValleySVG") != null && svgWidth < 830)
+                    destroyLivingValleyPopUp();
+
+                // Finally, let's create the menu, starting with its dimensions
+                let menuSVGWidth = Math.min(400, svgWidth - 80);
+                let menuSVGHeight = Math.min(550, svgHeight - 20);
+                let menuBGWidth = menuSVGWidth;
+                let menuBGHeight = menuSVGHeight;
+
+                // Create the SVG where the menu will live
+                let menuSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                menuSVG.setAttribute("width", menuSVGWidth);
+                menuSVG.setAttribute("height", menuSVGHeight);
+                menuSVG.setAttribute("x", 10);
+                menuSVG.setAttribute("y", 10);
+                menuSVG.setAttribute("id", "menuSVG");
+                svgElem.appendChild(menuSVG);
+
+                // Create the background for the menu
+                let menuBG = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                menuBG.setAttribute("width", menuBGWidth);
+                menuBG.setAttribute("height", menuBGHeight);
+                menuBG.setAttribute("x", 0);
+                menuBG.setAttribute("y", 0);
+                menuBG.setAttribute("rx", 8);
+                menuBG.setAttribute("ry", 8);
+                menuBG.setAttribute("class", "menuBG");
+                menuSVG.appendChild(menuBG);
+
+                // Overlay menu button to be able to close the menu
+                let menuCloseButton = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                menuCloseButton.setAttribute("width", 48);
+                menuCloseButton.setAttribute("height", 48);
+                menuCloseButton.setAttribute("x", 1);
+                menuCloseButton.setAttribute("y", 1);
+                menuCloseButton.setAttribute("rx", 8);
+                menuCloseButton.setAttribute("ry", 8);
+                menuCloseButton.setAttribute("class", "menuCloseButtonFunction");
+                menuCloseButton.addEventListener("click", closeMenu);
+                menuSVG.appendChild(menuCloseButton);
+
+                // Create the space where we can do regular HTML
+                let menuHTMLArea = document.createElementNS("http://www.w3.org/2000/svg", "foreignObject");
+                let htmlAreaWidth = menuBGWidth - 20;
+                let htmlAreaHeight = menuBGHeight - 70;
+                menuHTMLArea.setAttribute("width", htmlAreaWidth);
+                menuHTMLArea.setAttribute("height", htmlAreaHeight);
+                menuHTMLArea.setAttribute("x", 10);
+                menuHTMLArea.setAttribute("y", 60);
+                menuHTMLArea.setAttribute("class", "menuHTMLArea");
+                menuSVG.appendChild(menuHTMLArea);
+
+                // Make a div in that space
+                let menuDiv = document.createElement("div");
+                menuDiv.setAttribute("width", "100%");
+                menuDiv.setAttribute("height", "100%");
+                menuDiv.setAttribute("class", "menuDiv");
+                menuDiv.setAttribute("id", "menuDivID");
+                menuHTMLArea.appendChild(menuDiv);
+
+                // Fill the div with dummy content
+                let dummyString = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis mollis";
+                dummyString += " mi ut ultricies. Nullam magna ipsum, porta vel dui convallis, rutrum";
+                dummyString += " imperdiet eros. Aliquam erat volutpat."
+                for (let i = 0; i < 10; i++) {
+                    menuDiv.append(dummyString, " ");
+                }
+            }
+
+            function closeMenu() {
+                // Remove the SVG element holding the graphics
+                let svg = document.getElementById("menuSVG");
+                svg.parentNode.removeChild(svg);
+            }
+
+            // This function will create an iframe with the Living Valley
+            // entry corresponding to the location clicked, overlaid on the map
+            function createLivingValleyPopUp(locationURL) {
+                // If there is already a frame open, we need to destroy it first
+                if (document.getElementById("livingValleySVG")) {
+                    destroyLivingValleyPopUp();
+                }
+
+                // If the mneu is open and the svg width is too
+                // low to support both popups, close the menu popup
+                getSvgDimensions();
+                if (document.getElementById("menuSVG") != null && svgWidth < 830)
+                    closeMenu();
+
+                // We have to make sure this fits on the user's screen;
+                // some phones have a width as low as 320px
+                // Default size is 400x550, but it could be smaller depending on the user's device
+                let livingValleySVGWidth = Math.min(400, svgWidth - 20);
+                let livingValleySVGHeight = Math.min(550, svgHeight - 130);
+                let livingValleyBGWidth = livingValleySVGWidth;
+                let livingValleyBGHeight = livingValleySVGHeight;
+                let livingValleyFrameWidth = livingValleySVGWidth - 20;
+                let livingValleyFrameHeight = livingValleySVGHeight - 60;
+                
+                // Build the pop up that will contain the Living Valley iframe
+                // First the SVG to contain all of these things
+                let livingValleySVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                livingValleySVG.setAttribute("width", livingValleySVGWidth);
+                livingValleySVG.setAttribute("height", livingValleySVGHeight);
+                livingValleySVG.setAttribute("x", 10);
+                livingValleySVG.setAttribute("y", 10);
+                livingValleySVG.setAttribute("id", "livingValleySVG");
+                svgElem.appendChild(livingValleySVG);
+
+                // First the background rectangle
+                let livingValleyBG = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                livingValleyBG.setAttribute("width", livingValleyBGWidth);
+                livingValleyBG.setAttribute("height", livingValleyBGHeight);
+                livingValleyBG.setAttribute("x", 0);
+                livingValleyBG.setAttribute("y", 0);
+                livingValleyBG.setAttribute("rx", 8);
+                livingValleyBG.setAttribute("ry", 8);
+                livingValleyBG.setAttribute("class", "livingValleyBG");
+                livingValleySVG.appendChild(livingValleyBG);
+
+                // Add the close button's text
+                let closeButtonX = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                closeButtonX.setAttribute("x", livingValleySVGWidth - 25);
+                closeButtonX.setAttribute("y", 25);
+                closeButtonX.setAttribute("class", "closeButtonText");
+                closeButtonX.setAttribute("font-size", 36);
+                closeButtonX.textContent = "x";
+                livingValleySVG.appendChild(closeButtonX);
+                // Then the close button function
+                let closeButton = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                closeButton.setAttribute("width", 48);
+                closeButton.setAttribute("height", 48);
+                closeButton.setAttribute("x", livingValleySVGWidth - 49);
+                closeButton.setAttribute("y", 1);
+                closeButton.setAttribute("rx", 8);
+                closeButton.setAttribute("ry", 8);
+                closeButton.setAttribute("class", "closeButtonFunction");
+                closeButton.addEventListener("click", destroyLivingValleyPopUp);
+                livingValleySVG.appendChild(closeButton);
+
+                let iFrameContainer = document.createElementNS("http://www.w3.org/2000/svg", "foreignObject");
+
+                // Set size and position
+                iFrameContainer.setAttribute("width", livingValleyFrameWidth);
+                iFrameContainer.setAttribute("height", livingValleyFrameHeight);
+                iFrameContainer.setAttribute("class", "iFrameContainer");
+                iFrameContainer.setAttribute("id", "livingValleyFrame");
+
+                // Create iframe to Living Valley entry
+                let livingValleyFrame = document.createElement("iframe");
+                let url = "https://thelivingvalley.earthbornegames.com/docs/campaign_guide/" + locationURL;
+                livingValleyFrame.src = url;
+                livingValleyFrame.width ="100%";
+                livingValleyFrame.height ="100%";
+
+                iFrameContainer.appendChild(livingValleyFrame);
+                svgElem.appendChild(iFrameContainer);
+
+                // Position popup on bottom-right
+                placeLivingValleyPopUp();
+            }
+
+            // This function will destroy the iframe with the Living Valley
+            // entry and its corresponding graphical accompaniments
+            function destroyLivingValleyPopUp() {
+                // Remove the SVG element holding the graphics
+                let svg = document.getElementById("livingValleySVG");
+                svg.parentNode.removeChild(svg);
+
+                // Remove the iframe element holding the external website
+                let frame = document.getElementById("livingValleyFrame");
+                frame.parentNode.removeChild(frame);
+            }
+
+            // Function to place the Living Valley popup on bottom-right
+            function placeLivingValleyPopUp() {
+                // If there isn't a Living Valley popup, just return
+                if (!document.getElementById("livingValleySVG"))
+                    return;
+
+                // Otherwise, put the Living Valley popup on the bottom right
+                getSvgDimensions();
+
+                // First, place the popup background
+                let livingValleyBG = document.getElementById("livingValleySVG");
+                let lvWidth = livingValleyBG.getAttribute("width");
+                let lvHeight = livingValleyBG.getAttribute("height");
+                let rightBGPadding = 10;
+                let bottomBGPadding = 10;
+
+                let lvbgHorizPosition = svgWidth - rightBGPadding - lvWidth;
+                let lvbgVertPosition = svgHeight - bottomBGPadding - lvHeight;
+                livingValleyBG.setAttribute("x", lvbgHorizPosition);
+                livingValleyBG.setAttribute("y", lvbgVertPosition);
+
+                // Second, place the popup iframe
+                let livingValleyIFrame = document.getElementById("livingValleyFrame");
+                let iframeWidth = livingValleyIFrame.getAttribute("width");
+                let iframeHeight = livingValleyIFrame.getAttribute("height");
+                let rightFramePadding = 10;
+                let bottomFramePadding = 10;
+
+                let lvIFrameHorizPosition = svgWidth - rightBGPadding - rightFramePadding - iframeWidth;
+                let lvIFrameVertPosition = svgHeight - bottomBGPadding - bottomFramePadding - iframeHeight;
+                livingValleyIFrame.setAttribute("x", lvIFrameHorizPosition);
+                livingValleyIFrame.setAttribute("y", lvIFrameVertPosition);
+            }
+
+            // Make sure the zoom buttons and Living Valley popup stay on the right if window is resized
+            window.onresize = function() {
+                placeZoomButtonsOnRight();
+                placeLivingValleyPopUp();
+            };
+        </script>
+    </body>
+
+</html>
