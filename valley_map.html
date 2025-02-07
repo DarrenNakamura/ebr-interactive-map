@@ -569,7 +569,7 @@
                     destroyLivingValleyPopUp();
                 }
 
-                // If the mneu is open and the svg width is too
+                // If the menu is open and the svg width is too
                 // low to support both popups, close the menu popup
                 getSvgDimensions();
                 if (document.getElementById("menuSVG") != null && svgWidth < 830)
@@ -577,8 +577,8 @@
 
                 // We have to make sure this fits on the user's screen;
                 // some phones have a width as low as 320px
-                // Default size is 400x550, but it could be smaller depending on the user's device
-                let livingValleySVGWidth = Math.min(400, svgWidth - 20);
+                // Default size is 400x550, but it could be larger or smaller depending on the user's device
+                let livingValleySVGWidth = Math.min(Math.max(svgWidth * 0.6, 400), svgWidth - 20);
                 let livingValleySVGHeight = Math.min(550, svgHeight - 130);
                 let livingValleyBGWidth = livingValleySVGWidth;
                 let livingValleyBGHeight = livingValleySVGHeight;
