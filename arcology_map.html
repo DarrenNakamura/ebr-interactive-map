@@ -38,6 +38,16 @@
                 return Number(mapScale.replace(")", ""));
             }
 
+            // Function to set the starting scale factor
+            function setStartingScaleFactor() {
+                getSvgDimensions();
+                const mapImageWidth = 2751;
+                const startingScaleFactor = svgWidth / mapImageWidth;
+                let scaleString = "scale(" + String(startingScaleFactor) + ")";
+                map.setAttribute("transform", scaleString);
+            }
+            setStartingScaleFactor();
+
             // The following three functions allow the user to move the map
             // within the svg element by clicking/touching and dragging it
             let isDragging = false;
@@ -145,7 +155,11 @@
                 let mapOriginX = Number(map.getAttribute("x"));
                 let mapOriginY = Number(map.getAttribute("y"));
                 let scaleFactor = getScaleFactor();
-                let minimumScaleFactor = 0.3;
+
+                // In order to keep the map from feeling small on larger screens,
+                // the minimum scale factor will depend on the screen width
+                const mapImageWidth = 2751;
+                let minimumScaleFactor = Math.ceil((svgWidth / mapImageWidth) * 10.0) / 10.0;
 
                 // Limit zooming out to a certain point
                 if (scaleFactor > minimumScaleFactor) {
@@ -681,7 +695,9 @@
             }
 
             // Make sure the zoom buttons and Living Valley popup stay on the right if window is resized
+            // Update the starting and minimum scale factor based on the window size
             window.onresize = function() {
+                setStartingScaleFactor();
                 placeZoomButtonsOnRight();
                 placeLivingValleyPopUp();
             };
