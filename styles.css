@@ -178,11 +178,11 @@ iframe {
 }
 
 .closeButtonText {
-    fill: white;
+    fill: rgb(24, 70, 48);
     font-weight: bold;
     dominant-baseline: middle;
     text-anchor: middle;
-    fill-opacity: 60%;
+    fill-opacity: 100%;
 }
 
 .closeButtonFunction {
