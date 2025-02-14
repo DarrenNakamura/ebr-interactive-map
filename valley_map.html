@@ -208,10 +208,12 @@
             function createLocationButton(locationX, locationY, isPivotal, locationLink) {
                 let scaleFactor = getScaleFactor();
                 let svg = document.getElementById("mapSVG");
+                const gradientOffsetX = 1310;
+                const gradientOffsetY = 1445;
 
                 // Calculate center of location based on zoom factor
-                let scaledX = Math.round(locationX * scaleFactor);
-                let scaledY = Math.round(locationY * scaleFactor);
+                let scaledX = Math.round((locationX - gradientOffsetX) * scaleFactor);
+                let scaledY = Math.round((locationY - gradientOffsetY) * scaleFactor);
 
                 // Create the link that this button will go to
                 let newLink = document.createElementNS("http://www.w3.org/2000/svg", "a");
@@ -224,7 +226,7 @@
                 // If the location is pivotal, make the button a circle
                 if (isPivotal) {
                     // Calculate the radius based on zoom factor
-                    let standardRadius = 56;
+                    const standardRadius = 65;
                     let scaledRadius = Math.round(standardRadius * scaleFactor);
 
                     // Create the circle based on current zoom and window
@@ -240,10 +242,10 @@
                 // Otherwise, make it a square rotated 45 degrees
                 else {
                     // Find the Y-coordinate for the top of the location
-                    let topY = (locationY - 65) * scaleFactor;
+                    const standardLength = 111;
+                    let topY = (locationY - gradientOffsetY - Math.round(standardLength * Math.SQRT2 / 2)) * scaleFactor;
 
                     // Calculate the square's length based on the zoom factor
-                    let standardLength = 95;
                     let scaledLength = Math.round(standardLength * scaleFactor);
 
                     // Create string to control 45 degree rotation about the top of the square
@@ -285,7 +287,7 @@
                                 let originalY = Number(linkChild.getAttribute("data-y"));
                                 let newX = Math.round((originalX + mapOriginX) * scaleFactor);
                                 let newY = Math.round((originalY + mapOriginY) * scaleFactor);
-                                let standardRadius = 56;
+                                const standardRadius = 65;
                                 let scaledRadius = standardRadius * scaleFactor;
 
                                 // Set attributes
@@ -296,11 +298,11 @@
                             // Update non-pivotal location button positions
                             else if (linkChild.getAttribute("class") == "locationButton square") {
                                 // Calculate
+                                const standardLength = 111;
                                 let originalX = Number(linkChild.getAttribute("data-x"));
                                 let originalY = Number(linkChild.getAttribute("data-y"));
                                 let newX = Math.round((originalX + mapOriginX) * scaleFactor);
-                                let newY = Math.round((originalY + mapOriginY - 65) * scaleFactor);
-                                let standardLength = 95;
+                                let newY = Math.round((originalY + mapOriginY - Math.round(standardLength  * Math.SQRT2 / 2)) * scaleFactor);
                                 let scaledLength = Math.round(standardLength * scaleFactor);
                                 let rotateString = "rotate(45 " + newX + " " + newY + ")";
 
@@ -420,7 +422,7 @@
             }
             placeZoomButtonsOnRight();
 
-            // This function creates the menu button in the top right
+            // This function creates the menu button in the top left
             function createMenuButton() {
                 // Get the map SVG to append the penu button SVG into
                 let svg = document.getElementById("mapSVG");
