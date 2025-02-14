@@ -13,6 +13,12 @@
     <body id="valleyBody">
         <div id="mapDiv">
             <svg width="auto" height="auto" xmlns="http://www.w3.org/2000/svg" id="mapSVG">
+                <!-- Define some global effects -->
+                 <defs>
+                    <filter id="LVShadow">
+                        <feDropShadow dx="2" dy="2" stdDeviation="2" />
+                    </filter>
+                 </defs>
                 <!-- Render the map -->
                 <image id="mapImage" width="2846" height="4000" x="0" y="0" href="EBR001_Valley Map_eng.jpg" transform="scale(0.5)" />
                 <!-- All of the rest of the rendering happens via script below -->
@@ -586,8 +592,8 @@
                 let livingValleySVGHeight = Math.min(550, svgHeight - 130);
                 let livingValleyBGWidth = livingValleySVGWidth;
                 let livingValleyBGHeight = livingValleySVGHeight;
-                let livingValleyFrameWidth = livingValleySVGWidth - 20;
-                let livingValleyFrameHeight = livingValleySVGHeight - 60;
+                let livingValleyFrameWidth = livingValleySVGWidth - 40;
+                let livingValleyFrameHeight = livingValleySVGHeight - 80;
                 
                 // Build the pop up that will contain the Living Valley iframe
                 // First the SVG to contain all of these things
@@ -597,6 +603,7 @@
                 livingValleySVG.setAttribute("x", 10);
                 livingValleySVG.setAttribute("y", 10);
                 livingValleySVG.setAttribute("id", "livingValleySVG");
+                livingValleySVG.setAttribute("style", "filter:url(#LVShadow);");
                 svgElem.appendChild(livingValleySVG);
 
                 // Create the nine-slice background, starting with the top left
@@ -756,8 +763,8 @@
                 let livingValleyIFrame = document.getElementById("livingValleyFrame");
                 let iframeWidth = livingValleyIFrame.getAttribute("width");
                 let iframeHeight = livingValleyIFrame.getAttribute("height");
-                let rightFramePadding = 10;
-                let bottomFramePadding = 10;
+                let rightFramePadding = 20;
+                let bottomFramePadding = 20;
 
                 let lvIFrameHorizPosition = svgWidth - rightBGPadding - rightFramePadding - iframeWidth;
                 let lvIFrameVertPosition = svgHeight - bottomBGPadding - bottomFramePadding - iframeHeight;
