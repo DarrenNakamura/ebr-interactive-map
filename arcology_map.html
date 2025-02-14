@@ -20,7 +20,7 @@
                     </filter>
                  </defs>
                 <!-- Render the map -->
-                <image id="mapImage" width="2751" height="7016" x="0" y="0" href="EBR023_Deluxe LotA Map_eng.jpg" transform="scale(0.5)" />
+                <image id="mapImage" width="6000" height="7800" x="-1720" y="-900" href="Assets/EBR023_Deluxe LotA Map_eng.jpg" transform="scale(0.5)" />
                 <!-- All of the rest of the rendering happens via script below -->
             </svg>
         </div>
@@ -47,7 +47,7 @@
             // Function to set the starting scale factor
             function setStartingScaleFactor() {
                 getSvgDimensions();
-                const mapImageWidth = 2751;
+                const mapImageWidth = 2660;
                 const startingScaleFactor = svgWidth / mapImageWidth;
                 let scaleString = "scale(" + String(startingScaleFactor) + ")";
                 map.setAttribute("transform", scaleString);
@@ -166,7 +166,7 @@
 
                 // In order to keep the map from feeling small on larger screens,
                 // the minimum scale factor will depend on the screen width
-                const mapImageWidth = 2751;
+                const mapImageWidth = 2660;
                 let minimumScaleFactor = Math.ceil((svgWidth / mapImageWidth) * 10.0) / 10.0;
 
                 // Limit zooming out to a certain point
