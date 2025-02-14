@@ -188,7 +188,7 @@ iframe {
 .closeButtonFunction {
     stroke-opacity: 0%;
     fill-opacity: 0%;
-    fill: white;
+    fill: black;
 }
 
 .closeButtonFunction:hover {
