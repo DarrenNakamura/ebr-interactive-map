@@ -75,6 +75,16 @@
             }
 
             function drag(event) {
+                // Define limits for dragging
+                const topBound = 900;
+                const leftBound = 1720;
+                const rightBound = 4370;
+                const bottomBound = 6500;
+                const mapOriginXMin = (-1 * rightBound * scaleFactor) / scaleFactor;
+                const mapOriginXMax = (svgWidth - (leftBound * scaleFactor)) / scaleFactor;
+                const mapOriginYMin = (-1 * bottomBound * scaleFactor) / scaleFactor;
+                const mapOriginYMax = (svgHeight - (topBound * scaleFactor)) / scaleFactor;
+
                 // Check to make sure the cursor isn't over an open menu div
                 let menu = document.getElementById("menuDivID");
                 if (menu != null) {
@@ -97,6 +107,12 @@
                 // Calculate movement
                 let deltaX = Math.round((cursorCurrentX - startX) / scaleFactor);
                 let deltaY = Math.round((cursorCurrentY - startY) / scaleFactor);
+
+                // Check if movement would be out of bounds
+                if ((mapOriginX + deltaX > mapOriginXMax) || (mapOriginX + deltaX < mapOriginXMin) ||
+                    (mapOriginY + deltaY > mapOriginYMax) || (mapOriginY + deltaY < mapOriginYMin)) {
+                        return;
+                    }
 
                 // Update map origin
                 mapOriginX += deltaX;
