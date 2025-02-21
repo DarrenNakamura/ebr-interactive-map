@@ -211,8 +211,8 @@
 
             // This lets the scroll wheel zoom in and out
             mapSVG.addEventListener("wheel", (event) => {
-                // Check to make sure the cursor isn't over an open menu div
-                let menu = document.getElementById("menuDivID");
+                // Check to make sure the cursor isn't over an open menu SVG
+                let menu = document.getElementById("menuSVG");
                 if (menu != null) {
                     if (menu.matches(":hover"))
                         return;
