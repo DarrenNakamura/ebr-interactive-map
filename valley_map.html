@@ -602,10 +602,54 @@
                 menuHTMLArea.appendChild(menuDiv);
 
                 // Fill the div with content
+                let mapSelectHeader = document.createElement("h3");
+                mapSelectHeader.setAttribute("class", "menuTopH3");
+                let mapSelectText = "Map Select";
+                mapSelectHeader.append(mapSelectText);
+                menuDiv.appendChild(mapSelectHeader);
+
+                // Lure of the Valley
+                let valleyLink = document.createElement("a");
+                valleyLink.setAttribute("href", "valley_map.html");
+                let valleyLinkTable = document.createElement("table");
+                valleyLinkTable.setAttribute("class", "menuLinkTable");
+                let valleyLinkRow = document.createElement("tr");
+                let valleyLinkIconTD = document.createElement("td");
+                valleyLinkIconTD.setAttribute("width", "100px");
+                let valleyLinkIcon = document.createElement("img");
+                valleyLinkIcon.setAttribute("src", "Assets/valley-placeholder-art.png");
+                valleyLinkIcon.setAttribute("class", "linkIcon");
+                let valleyLinkTextTD = document.createElement("td");
+                valleyLinkTextTD.setAttribute("class", "linkTableText");
+                let valleyLinkText = "Lure of the Valley";
+                valleyLinkIconTD.appendChild(valleyLinkIcon);
+                valleyLinkTextTD.append(valleyLinkText);
+                valleyLinkRow.appendChild(valleyLinkIconTD);
+                valleyLinkRow.appendChild(valleyLinkTextTD);
+                valleyLinkTable.appendChild(valleyLinkRow);
+                valleyLink.appendChild(valleyLinkTable);
+                menuDiv.appendChild(valleyLink);
+
+                // Legacy of the Ancestors
                 let arcologyLink = document.createElement("a");
                 arcologyLink.setAttribute("href", "arcology_map.html");
-                let arcologyLinkText = "Legacy of the Ancestors map";
-                arcologyLink.append(arcologyLinkText);
+                let arcologyLinkTable = document.createElement("table");
+                arcologyLinkTable.setAttribute("class", "menuLinkTable");
+                let arcologyLinkRow = document.createElement("tr");
+                let arcologyLinkIconTD = document.createElement("td");
+                arcologyLinkIconTD.setAttribute("width", "100px");
+                let arcologyLinkIcon = document.createElement("img");
+                arcologyLinkIcon.setAttribute("src", "Assets/arcology-placeholder-art.png");
+                arcologyLinkIcon.setAttribute("class", "linkIcon");
+                let arcologyLinkTextTD = document.createElement("td");
+                arcologyLinkTextTD.setAttribute("class", "linkTableText");
+                let arcologyLinkText = "Legacy of the Ancestors";
+                arcologyLinkIconTD.appendChild(arcologyLinkIcon);
+                arcologyLinkTextTD.append(arcologyLinkText);
+                arcologyLinkRow.appendChild(arcologyLinkIconTD);
+                arcologyLinkRow.appendChild(arcologyLinkTextTD);
+                arcologyLinkTable.appendChild(arcologyLinkRow);
+                arcologyLink.appendChild(arcologyLinkTable);
                 menuDiv.appendChild(arcologyLink);
             }
 
