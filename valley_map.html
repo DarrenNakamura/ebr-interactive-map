@@ -651,83 +651,16 @@
                 livingValleySVG.setAttribute("style", "filter:url(#dropShadow);");
                 svgElem.appendChild(livingValleySVG);
 
-                // Create the nine-slice background, starting with the top left
-                let nineSliceTopLeft = document.createElementNS("http://www.w3.org/2000/svg", "image");
-                nineSliceTopLeft.setAttribute("href", "Assets/LV-9slice-topleft.png");
-                nineSliceTopLeft.setAttribute("width", 50);
-                nineSliceTopLeft.setAttribute("height", 50);
-                nineSliceTopLeft.setAttribute("x", 0);
-                nineSliceTopLeft.setAttribute("y", 0);
-                livingValleySVG.appendChild(nineSliceTopLeft);
-                // Nine-slice top right
-                let nineSliceTopRight = document.createElementNS("http://www.w3.org/2000/svg", "image");
-                nineSliceTopRight.setAttribute("href", "Assets/LV-9slice-topright.png");
-                nineSliceTopRight.setAttribute("width", 50);
-                nineSliceTopRight.setAttribute("height", 50);
-                nineSliceTopRight.setAttribute("x", livingValleyBGWidth - 50);
-                nineSliceTopRight.setAttribute("y", 0);
-                livingValleySVG.appendChild(nineSliceTopRight);
-                // Nine-slice top right
-                let nineSliceBottomLeft = document.createElementNS("http://www.w3.org/2000/svg", "image");
-                nineSliceBottomLeft.setAttribute("href", "Assets/LV-9slice-bottomleft.png");
-                nineSliceBottomLeft.setAttribute("width", 50);
-                nineSliceBottomLeft.setAttribute("height", 50);
-                nineSliceBottomLeft.setAttribute("x", 0);
-                nineSliceBottomLeft.setAttribute("y", livingValleyBGHeight - 50);
-                livingValleySVG.appendChild(nineSliceBottomLeft);
-                // Nine-slice top right
-                let nineSliceBottomRight = document.createElementNS("http://www.w3.org/2000/svg", "image");
-                nineSliceBottomRight.setAttribute("href", "Assets/LV-9slice-bottomright.png");
-                nineSliceBottomRight.setAttribute("width", 50);
-                nineSliceBottomRight.setAttribute("height", 50);
-                nineSliceBottomRight.setAttribute("x", livingValleyBGWidth - 50);
-                nineSliceBottomRight.setAttribute("y", livingValleyBGHeight - 50);
-                livingValleySVG.appendChild(nineSliceBottomRight);
-                // Nine-slice top
-                let nineSliceTop = document.createElementNS("http://www.w3.org/2000/svg", "image");
-                nineSliceTop.setAttribute("href", "Assets/LV-9slice-top.png");
-                nineSliceTop.setAttribute("width", livingValleyBGWidth - 98);
-                nineSliceTop.setAttribute("height", 50);
-                nineSliceTop.setAttribute("x", 49);
-                nineSliceTop.setAttribute("y", 0);
-                nineSliceTop.setAttribute("preserveAspectRatio", "none");
-                livingValleySVG.appendChild(nineSliceTop);
-                // Nine-slice top
-                let nineSliceLeft = document.createElementNS("http://www.w3.org/2000/svg", "image");
-                nineSliceLeft.setAttribute("href", "Assets/LV-9slice-left.png");
-                nineSliceLeft.setAttribute("width", 50);
-                nineSliceLeft.setAttribute("height", livingValleyBGHeight - 98);
-                nineSliceLeft.setAttribute("x", 0);
-                nineSliceLeft.setAttribute("y", 49);
-                nineSliceLeft.setAttribute("preserveAspectRatio", "none");
-                livingValleySVG.appendChild(nineSliceLeft);
-                // Nine-slice top
-                let nineSliceRight = document.createElementNS("http://www.w3.org/2000/svg", "image");
-                nineSliceRight.setAttribute("href", "Assets/LV-9slice-right.png");
-                nineSliceRight.setAttribute("width", 50);
-                nineSliceRight.setAttribute("height", livingValleyBGHeight - 98);
-                nineSliceRight.setAttribute("x", livingValleyBGWidth - 50);
-                nineSliceRight.setAttribute("y", 49);
-                nineSliceRight.setAttribute("preserveAspectRatio", "none");
-                livingValleySVG.appendChild(nineSliceRight);
-                // Nine-slice top
-                let nineSliceBottom = document.createElementNS("http://www.w3.org/2000/svg", "image");
-                nineSliceBottom.setAttribute("href", "Assets/LV-9slice-bottom.png");
-                nineSliceBottom.setAttribute("width", livingValleyBGWidth - 98);
-                nineSliceBottom.setAttribute("height", 50);
-                nineSliceBottom.setAttribute("x", 49);
-                nineSliceBottom.setAttribute("y", livingValleyBGHeight - 50);
-                nineSliceBottom.setAttribute("preserveAspectRatio", "none");
-                livingValleySVG.appendChild(nineSliceBottom);
-                // Nine-slice top
-                let nineSliceMiddle = document.createElementNS("http://www.w3.org/2000/svg", "image");
-                nineSliceMiddle.setAttribute("href", "Assets/LV-9slice-middle.png");
-                nineSliceMiddle.setAttribute("width", livingValleyBGWidth - 98);
-                nineSliceMiddle.setAttribute("height", livingValleyBGHeight - 98);
-                nineSliceMiddle.setAttribute("x", 49);
-                nineSliceMiddle.setAttribute("y", 49);
-                nineSliceMiddle.setAttribute("preserveAspectRatio", "none");
-                livingValleySVG.appendChild(nineSliceMiddle);
+                // Draw rectangle background for Living Valley iframe
+                let livingValleyBG = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                livingValleyBG.setAttribute("x", 0);
+                livingValleyBG.setAttribute("y", 0);
+                livingValleyBG.setAttribute("width", livingValleyBGWidth);
+                livingValleyBG.setAttribute("height", livingValleyBGHeight);
+                livingValleyBG.setAttribute("rx", 20);
+                livingValleyBG.setAttribute("ry", 20);
+                livingValleyBG.setAttribute("class", "livingValleyBG");
+                livingValleySVG.appendChild(livingValleyBG);
 
                 // Add the close button's text
                 let closeButtonX = document.createElementNS("http://www.w3.org/2000/svg", "text");

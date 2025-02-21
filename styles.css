@@ -168,14 +168,18 @@ iframe {
 }
 
 .livingValleyBG {
-    fill: black;
-    fill-opacity: 60%;
-    stroke: black;
-    stroke-opacity: 80%;
-    stroke-width: 1px;
+    stroke-width: 2px;
+    stroke-opacity: 100%;
+    fill-opacity: 100%;
+    stroke: rgb(11, 40, 30);
+    fill: rgb(250, 250, 226);
     margin: none;
     padding: none;
     border: none;
+}
+
+.iframeContainer {
+    fill: rgb(250, 250, 226);
 }
 
 .closeButtonText {
