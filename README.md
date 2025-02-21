@@ -25,7 +25,6 @@ A web-based interactive map for use alongside the cooperative adventure card gam
 * Menu, zoom control, location pop-up user interface style matches The Living Valley
 
 # Potential Features (TODO)
-* Add options in menu
 * Add animation (zoom in, zoom out, menu open, menu close, open Living Valley iframe, automatically pan map to bring Living Valley iframe into view)
 * Add functionality to allow users to take notes at specific locations
 * Add functionality to allow users to highlight locations based on traits
