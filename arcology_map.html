@@ -86,11 +86,13 @@
                 const mapOriginYMin = (-1 * bottomBound * scaleFactor) / scaleFactor;
                 const mapOriginYMax = (svgHeight - (topBound * scaleFactor)) / scaleFactor;
 
-                // Check to make sure the cursor isn't over an open menu div
-                let menu = document.getElementById("menuDivID");
+                // Check to make sure the cursor isn't over an open menu SVG
+                let menu = document.getElementById("menuSVG");
                 if (menu != null) {
+                    menu.addEventListener("touchstart", endDrag);
+                    menu.addEventListener("touchmove", endDrag);
                     if (menu.matches(":hover"))
-                        return;
+                        endDrag();
                 }
                 
                 if (!isDragging) return;
@@ -607,7 +609,7 @@
                 let mapSelectText = "Map Select";
                 mapSelectHeader.append(mapSelectText);
                 menuDiv.appendChild(mapSelectHeader);
-                
+
                 // Lure of the Valley
                 let valleyLink = document.createElement("a");
                 valleyLink.setAttribute("href", "valley_map.html");
