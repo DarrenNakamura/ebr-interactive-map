@@ -23,12 +23,12 @@ A web-based interactive map for use alongside the cooperative adventure card gam
 * When clicked, each location opens an iframe with the corresponding Living Valley entry in it
 * Menu button opens a menu to switch between maps
 * Menu, zoom control, location pop-up user interface style matches The Living Valley
+* User can toggle location card numbers to show over the map
 
 # Potential Features (TODO)
 * Add animation (zoom in, zoom out, menu open, menu close, open Living Valley iframe, automatically pan map to bring Living Valley iframe into view)
 * Add functionality to allow users to take notes at specific locations
 * Add functionality to allow users to highlight locations based on traits
-* Add functionality to allow users to display location card numbers on the map
 
 # Known Bug(s)
-* None!
+* After moving the map with the location card numbers toggled off, toggling them on without moving the cursor does not update their positions. Once the cursor moves, the positions update
