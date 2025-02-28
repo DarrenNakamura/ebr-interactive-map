@@ -29,7 +29,7 @@
             let svgElem = document.getElementById("mapSVG");
             let map = document.getElementById("mapImage");
             let svgWidth, svgHeight;
-            let showLocationCardNumbers = true;
+            let showLocationCardNumbers = false;
 
             // Get the dimensions of the svg element
             function getSvgDimensions() {
@@ -344,7 +344,7 @@
 
             // This function will create the location card numbers for each location,
             // which will default to off
-            function createLocationCardNumbers(locationX, locationY, locationCardNumber) {
+            function createLocationCardNumber(locationX, locationY, locationCardNumber) {
                 const gradientOffsetX = 1310;
                 const gradientOffsetY = 1445;
                 const cardNumberOffsetX = 40;
@@ -366,7 +366,10 @@
                 newGroup.setAttribute("y", scaledY);
                 newGroup.setAttribute("data-x", locationX);
                 newGroup.setAttribute("data-y", locationY);
-                newGroup.setAttribute("class", "locationCardNumberGroup");
+                if (showLocationCardNumbers)
+                    newGroup.setAttribute("class", "locationCardNumberGroup");
+                else
+                    newGroup.setAttribute("class", "locationCardNumberGroup hidden");
                 mapSVG.appendChild(newGroup);
 
                 // Create the circle based on current zoom and window
@@ -410,12 +413,6 @@
                 let mapOriginX = Number(map.getAttribute("x"));
                 let mapOriginY = Number(map.getAttribute("y"));
                 let scaleFactor = getScaleFactor();
-
-                /*for (const svgChild of svgElem.children) {
-                    if (svgChild.getAttribute("class") == "locationCardNumberGroup") {
-                        console.log("x =", svgChild.getAttribute("x"));
-                    }
-                }*/
 
                 // Iterate over all of the SVG children
                 for (const svgChild of svgElem.children) {
@@ -467,7 +464,7 @@
                     let locationCardNumber = location["setCardNum"];
 
                     createLocationButton(locationX, locationY, locationIsPivotal, locationURL);
-                    createLocationCardNumbers(locationX, locationY, locationCardNumber);
+                    createLocationCardNumber(locationX, locationY, locationCardNumber);
                 }
             }
 
@@ -774,6 +771,52 @@
                 arcologyLinkTable.appendChild(arcologyLinkRow);
                 arcologyLink.appendChild(arcologyLinkTable);
                 menuDiv.appendChild(arcologyLink);
+
+                // Options
+                let optionsHeader = document.createElement("h3");
+                const optionsText = "Options";
+                optionsHeader.append(optionsText);
+                menuDiv.appendChild(optionsHeader);
+                const optionsTable = document.createElement("table");
+                menuDiv.appendChild(optionsTable);
+
+                // Location card number checkbox
+                const locationCardNumberTR = document.createElement("tr");
+                const locationCardNumberTextTD = document.createElement("td");
+                const locationCardNumberText = "Show Location Card Numbers";
+                locationCardNumberTextTD.append(locationCardNumberText);
+                locationCardNumberTR.appendChild(locationCardNumberTextTD);
+                const locationCardNumberCheckboxTD = document.createElement("td");
+                let locationCardNumberCheckbox = document.createElement("input")
+                locationCardNumberCheckbox.setAttribute("type", "checkbox");
+                locationCardNumberCheckbox.setAttribute("onclick", "toggleShowLocationCardNumbers(this.checked);");
+                locationCardNumberCheckbox.checked = showLocationCardNumbers;
+                locationCardNumberCheckboxTD.appendChild(locationCardNumberCheckbox);
+                locationCardNumberTR.appendChild(locationCardNumberCheckboxTD);
+                optionsTable.appendChild(locationCardNumberTR);
+            }
+
+            function toggleShowLocationCardNumbers(show) {
+                // First, set the global variable
+                showLocationCardNumbers = show;
+                updateLocationCardNumbers();
+
+                // Then apply that variable's effects
+                if (show) {
+                    // Iterate over all of the location card number groups
+                    for (const svgChild of svgElem.children) {
+                        if (svgChild.getAttribute("class") == "locationCardNumberGroup hidden") {
+                            svgChild.setAttribute("class", "locationCardNumberGroup");
+                        }
+                    }
+                } else {
+                    // Iterate over all of the location card number groups
+                    for (const svgChild of svgElem.children) {
+                        if (svgChild.getAttribute("class") == "locationCardNumberGroup") {
+                            svgChild.setAttribute("class", "locationCardNumberGroup hidden");
+                        }
+                    }
+                }
             }
 
             function closeMenu() {
