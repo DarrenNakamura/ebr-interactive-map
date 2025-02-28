@@ -226,34 +226,6 @@
                 else if(event.deltaY < 0) zoomIn();
             });
 
-            // This function will create the location card numbers for each location,
-            // which will default to off
-            function createLocationCardNumbers(locationX, locationY, locationCardNumber) {
-                const gradientOffsetX = 1310;
-                const gradientOffsetY = 1445;
-                const cardNumberOffsetX = 40;
-                const cardNumberOffsetY = 30;
-                const labelRadius = 32;
-
-                let scaleFactor = getScaleFactor();
-                let svg = document.getElementById("mapSVG");
-
-                // Calculate the position of the location card number label and its raidus based on scale factor
-                let scaledX = Math.round((locationX - gradientOffsetX + cardNumberOffsetX) * scaleFactor);
-                let scaledY = Math.round((locationY - gradientOffsetY + cardNumberOffsetY) * scaleFactor);
-                let scaledRadius = Math.round(labelRadius * scaleFactor);
-
-                // Create the circle based on current zoom and window
-                let newCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                newCircle.setAttribute("r", scaledRadius);
-                newCircle.setAttribute("cx", scaledX);
-                newCircle.setAttribute("cy", scaledY);
-                newCircle.setAttribute("class", "locationCardNumber");
-                newCircle.setAttribute("data-x", locationX);
-                newCircle.setAttribute("data-y", locationY);
-                mapSVG.appendChild(newCircle);
-            }
-
             // This function should allow an administrator to create
             // links for locations, given the location's coordinates on the map,
             // the type of location, and the page it should link to
@@ -370,6 +342,57 @@
                 }
             }
 
+            // This function will create the location card numbers for each location,
+            // which will default to off
+            function createLocationCardNumbers(locationX, locationY, locationCardNumber) {
+                const gradientOffsetX = 1310;
+                const gradientOffsetY = 1445;
+                const cardNumberOffsetX = 40;
+                const cardNumberOffsetY = 30;
+                const labelRadius = 32;
+                const labelFontSize = 30;
+
+                let scaleFactor = getScaleFactor();
+                let svg = document.getElementById("mapSVG");
+
+                // Calculate the position of the location card number label and its raidus based on scale factor
+                let scaledX = Math.round((locationX - gradientOffsetX + cardNumberOffsetX) * scaleFactor);
+                let scaledY = Math.round((locationY - gradientOffsetY + cardNumberOffsetY) * scaleFactor);
+                let scaledRadius = Math.round(labelRadius * scaleFactor);
+
+                // Create a new grouping
+                let newGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+                newGroup.setAttribute("x", scaledX);
+                newGroup.setAttribute("y", scaledY);
+                newGroup.setAttribute("data-x", locationX);
+                newGroup.setAttribute("data-y", locationY);
+                newGroup.setAttribute("class", "locationCardNumberGroup");
+                mapSVG.appendChild(newGroup);
+
+                // Create the circle based on current zoom and window
+                let newCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                newCircle.setAttribute("r", scaledRadius);
+                newCircle.setAttribute("cx", scaledX);
+                newCircle.setAttribute("cy", scaledY);
+                newCircle.setAttribute("data-x", locationX);
+                newCircle.setAttribute("data-y", locationY);
+                newCircle.setAttribute("class", "locationCardNumberCircle");
+                newGroup.appendChild(newCircle);
+
+                // Create the text
+                let newText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                newText.setAttribute("x", scaledX);
+                newText.setAttribute("y", scaledY);
+                newText.setAttribute("data-x", locationX);
+                newText.setAttribute("data-y", locationY);
+                newText.setAttribute("class", "locationCardNumberText");
+                newText.setAttribute("text-anchor", "middle");
+                newText.setAttribute("alignment-baseline", "central");
+                newText.setAttribute("font-size", labelFontSize * scaleFactor);
+                newText.append(String(locationCardNumber));
+                newGroup.appendChild(newText);
+            }
+
             // This function should update the position and scale of the location
             // card numbers depending on the panning/zooming of the map
             function updateLocationCardNumbers() {
@@ -381,27 +404,54 @@
                 const cardNumberOffsetX = 40;
                 const cardNumberOffsetY = 30;
                 const labelRadius = 32;
+                const labelFontSize = 30;
 
                 // Get current map coordinates and scale factor
                 let mapOriginX = Number(map.getAttribute("x"));
                 let mapOriginY = Number(map.getAttribute("y"));
                 let scaleFactor = getScaleFactor();
 
+                /*for (const svgChild of svgElem.children) {
+                    if (svgChild.getAttribute("class") == "locationCardNumberGroup") {
+                        console.log("x =", svgChild.getAttribute("x"));
+                    }
+                }*/
+
                 // Iterate over all of the SVG children
                 for (const svgChild of svgElem.children) {
                     // Only look at the location card numbers
-                    if (svgChild.getAttribute("class") == "locationCardNumber") {
-                        // Calculate
-                        let originalX = Number(svgChild.getAttribute("data-x"));
-                        let originalY = Number(svgChild.getAttribute("data-y"));
-                        let newX = Math.round((originalX + cardNumberOffsetX + mapOriginX) * scaleFactor);
-                        let newY = Math.round((originalY + cardNumberOffsetY + mapOriginY) * scaleFactor);
-                        let scaledRadius = Math.round(labelRadius * scaleFactor);
+                    if (svgChild.getAttribute("class") == "locationCardNumberGroup") {
+                        // Update the circles and the text
+                        for (const groupChild of svgChild.children) {
+                            // Update the circles
+                            if (groupChild.getAttribute("class") == "locationCardNumberCircle") {
+                                // Calculate
+                                let originalX = Number(groupChild.getAttribute("data-x"));
+                                let originalY = Number(groupChild.getAttribute("data-y"));
+                                let newX = Math.round((originalX + cardNumberOffsetX + mapOriginX) * scaleFactor);
+                                let newY = Math.round((originalY + cardNumberOffsetY + mapOriginY) * scaleFactor);
+                                let scaledRadius = Math.round(labelRadius * scaleFactor);
 
-                        // Set attributes
-                        svgChild.setAttribute("cx", newX);
-                        svgChild.setAttribute("cy", newY);
-                        svgChild.setAttribute("r", scaledRadius);
+                                // Set attributes
+                                groupChild.setAttribute("cx", newX);
+                                groupChild.setAttribute("cy", newY);
+                                groupChild.setAttribute("r", scaledRadius);
+                            }
+                            else {
+                                if (groupChild.getAttribute("class") == "locationCardNumberText") {
+                                    // Calculate
+                                    let originalX = Number(groupChild.getAttribute("data-x"));
+                                    let originalY = Number(groupChild.getAttribute("data-y"));
+                                    let newX = Math.round((originalX + cardNumberOffsetX + mapOriginX) * scaleFactor);
+                                    let newY = Math.round((originalY + cardNumberOffsetY + mapOriginY) * scaleFactor);
+
+                                    // Set attributes
+                                    groupChild.setAttribute("x", newX);
+                                    groupChild.setAttribute("y", newY);
+                                    groupChild.setAttribute("font-size", labelFontSize * scaleFactor);
+                                }
+                            }
+                        }
                     }
                 }
             }
