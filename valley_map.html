@@ -29,6 +29,7 @@
             let svgElem = document.getElementById("mapSVG");
             let map = document.getElementById("mapImage");
             let svgWidth, svgHeight;
+            let showLocationCardNumbers = true;
 
             // Get the dimensions of the svg element
             function getSvgDimensions() {
@@ -130,11 +131,13 @@
                 startY = cursorCurrentY;
 
                 updateLocationButtons();
+                updateLocationCardNumbers();
             }
 
             function endDrag(event) {
                 isDragging = false;
                 updateLocationButtons();
+                updateLocationCardNumbers();
             }
 
             // Add event listeners for traditional cursors
@@ -175,6 +178,7 @@
 
                     // Update location buttons
                     updateLocationButtons();
+                    updateLocationCardNumbers();
                 }
             }
             function zoomOut() {
@@ -206,6 +210,7 @@
 
                     // Update location buttons
                     updateLocationButtons();
+                    updateLocationCardNumbers();
                 }
             }
 
@@ -220,6 +225,34 @@
                 if(event.deltaY > 0) zoomOut();
                 else if(event.deltaY < 0) zoomIn();
             });
+
+            // This function will create the location card numbers for each location,
+            // which will default to off
+            function createLocationCardNumbers(locationX, locationY, locationCardNumber) {
+                const gradientOffsetX = 1310;
+                const gradientOffsetY = 1445;
+                const cardNumberOffsetX = 40;
+                const cardNumberOffsetY = 30;
+                const labelRadius = 32;
+
+                let scaleFactor = getScaleFactor();
+                let svg = document.getElementById("mapSVG");
+
+                // Calculate the position of the location card number label and its raidus based on scale factor
+                let scaledX = Math.round((locationX - gradientOffsetX + cardNumberOffsetX) * scaleFactor);
+                let scaledY = Math.round((locationY - gradientOffsetY + cardNumberOffsetY) * scaleFactor);
+                let scaledRadius = Math.round(labelRadius * scaleFactor);
+
+                // Create the circle based on current zoom and window
+                let newCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                newCircle.setAttribute("r", scaledRadius);
+                newCircle.setAttribute("cx", scaledX);
+                newCircle.setAttribute("cy", scaledY);
+                newCircle.setAttribute("class", "locationCardNumber");
+                newCircle.setAttribute("data-x", locationX);
+                newCircle.setAttribute("data-y", locationY);
+                mapSVG.appendChild(newCircle);
+            }
 
             // This function should allow an administrator to create
             // links for locations, given the location's coordinates on the map,
@@ -337,6 +370,42 @@
                 }
             }
 
+            // This function should update the position and scale of the location
+            // card numbers depending on the panning/zooming of the map
+            function updateLocationCardNumbers() {
+                // If we're not currently showing the location card numbers, don't bother doing any more here
+                if (showLocationCardNumbers == false) {
+                    return;
+                }
+
+                const cardNumberOffsetX = 40;
+                const cardNumberOffsetY = 30;
+                const labelRadius = 32;
+
+                // Get current map coordinates and scale factor
+                let mapOriginX = Number(map.getAttribute("x"));
+                let mapOriginY = Number(map.getAttribute("y"));
+                let scaleFactor = getScaleFactor();
+
+                // Iterate over all of the SVG children
+                for (const svgChild of svgElem.children) {
+                    // Only look at the location card numbers
+                    if (svgChild.getAttribute("class") == "locationCardNumber") {
+                        // Calculate
+                        let originalX = Number(svgChild.getAttribute("data-x"));
+                        let originalY = Number(svgChild.getAttribute("data-y"));
+                        let newX = Math.round((originalX + cardNumberOffsetX + mapOriginX) * scaleFactor);
+                        let newY = Math.round((originalY + cardNumberOffsetY + mapOriginY) * scaleFactor);
+                        let scaledRadius = Math.round(labelRadius * scaleFactor);
+
+                        // Set attributes
+                        svgChild.setAttribute("cx", newX);
+                        svgChild.setAttribute("cy", newY);
+                        svgChild.setAttribute("r", scaledRadius);
+                    }
+                }
+            }
+
             // Iterate over the location data to create buttons for each location
             for (const location of locationData) {
                 // Only create location buttons for locations on this map
@@ -345,8 +414,10 @@
                     let locationY = location["y"];
                     let locationIsPivotal = location["isPivotal"];
                     let locationURL = location["url"];
+                    let locationCardNumber = location["setCardNum"];
 
                     createLocationButton(locationX, locationY, locationIsPivotal, locationURL);
+                    createLocationCardNumbers(locationX, locationY, locationCardNumber);
                 }
             }
 
@@ -803,6 +874,7 @@
                 placeZoomButtonsOnRight();
                 placeLivingValleyPopUp();
                 updateLocationButtons();
+                updateLocationCardNumbers();
             };
         </script>
     </body>

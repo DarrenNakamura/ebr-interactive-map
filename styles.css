@@ -197,6 +197,14 @@ a:active {
     fill: forestgreen;
 }
 
+.locationCardNumber {
+    stroke: rgb(11, 40, 30);
+    fill: rgb(250, 250, 226);
+    stroke-width:2px;
+    fill-opacity:100%;
+    stroke-opacity:100%;
+}
+
 iframe {
     display: block;
     margin: none;
