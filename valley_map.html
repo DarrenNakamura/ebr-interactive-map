@@ -26,10 +26,12 @@
         </div>
 
         <script>
+            // Global variables
             let svgElem = document.getElementById("mapSVG");
             let map = document.getElementById("mapImage");
             let svgWidth, svgHeight;
             let showLocationCardNumbers = false;
+            let locationTraits = [];
 
             // Get the dimensions of the svg element
             function getSvgDimensions() {
@@ -467,6 +469,31 @@
                     createLocationCardNumber(locationX, locationY, locationCardNumber);
                 }
             }
+
+            // This function will look at all of the locationData for the current map
+            // and populate a list of unique location traits
+            function populateLocationTraits() {
+                // Iterate over all of the locations in locationData
+                for (const location of locationData) {
+                    // Only include traits from the current map
+                    if (location["set"] == "valleyBase") {
+                        // Add traits that exist and aren't already in locationTraits
+                        if (location["trait1"] != null && !locationTraits.includes(location["trait1"]))
+                            locationTraits.push(location["trait1"]);
+                        if (location["trait2"] != null && !locationTraits.includes(location["trait2"]))
+                            locationTraits.push(location["trait2"]);
+                        if (location["trait3"] != null && !locationTraits.includes(location["trait3"]))
+                            locationTraits.push(location["trait3"]);
+                        if (location["trait4"] != null && !locationTraits.includes(location["trait4"]))
+                            locationTraits.push(location["trait4"]);
+                        if (location["trait5"] != null && !locationTraits.includes(location["trait5"]))
+                            locationTraits.push(location["trait5"]);
+                    }
+                }
+
+                locationTraits.sort();
+            }
+            populateLocationTraits();
 
             // Create zoom buttons last so they are on top
             function createZoomButtons() {
