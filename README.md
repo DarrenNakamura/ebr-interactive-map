@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/29df3eab-f8cc-4f89-a9bd-a2e10356fa36)
+![image](https://github.com/user-attachments/assets/e416d7f3-f88b-4f12-ae41-f51b525be12d)
 
 # ebr-interactive-map
 A web-based interactive map for use alongside the cooperative adventure card game Earthborne Rangers
@@ -24,11 +24,11 @@ A web-based interactive map for use alongside the cooperative adventure card gam
 * Menu button opens a menu to switch between maps
 * Menu, zoom control, location pop-up user interface style matches The Living Valley
 * User can toggle location card numbers to show over the map
+* User can highlight locations based on selected location trait
 
 # Potential Features (TODO)
 * Add animation (zoom in, zoom out, menu open, menu close, open Living Valley iframe, automatically pan map to bring Living Valley iframe into view)
 * Add functionality to allow users to take notes at specific locations
-* Add functionality to allow users to highlight locations based on traits
 
 # Known Bug(s)
 * After moving the map with the location card numbers toggled off, toggling them on without moving the cursor does not update their positions. Once the cursor moves, the positions update
