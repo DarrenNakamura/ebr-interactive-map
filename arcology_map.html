@@ -491,7 +491,9 @@
                     }
                 }
 
+                // Sort the traits alphabetically and add "None" to the beginning
                 locationTraits.sort();
+                locationTraits.unshift("None");
             }
             populateLocationTraits();
 
@@ -813,6 +815,27 @@
                 locationCardNumberCheckboxTD.appendChild(locationCardNumberCheckbox);
                 locationCardNumberTR.appendChild(locationCardNumberCheckboxTD);
                 optionsTable.appendChild(locationCardNumberTR);
+
+                // Location trait dropdown
+                const locationTraitTR = document.createElement("tr");
+                const locationTraitTD = document.createElement("td");
+                const locationTraitText = "Highlight Locations by Trait";
+                locationTraitTD.append(locationTraitText);
+                locationTraitTR.appendChild(locationTraitTD);
+                const locationTraitDropdownTD = document.createElement("td");
+                const locationTraitDropdown = document.createElement("select");
+                locationTraitDropdown.setAttribute("id", "traits");
+                locationTraitDropdown.setAttribute("name", "traits");
+                for (trait of locationTraits) {
+                    console.log(trait);
+                    const traitOption = document.createElement("option");
+                    traitOption.setAttribute("value", trait);
+                    traitOption.append(trait);
+                    locationTraitDropdown.appendChild(traitOption);
+                }
+                locationTraitDropdownTD.appendChild(locationTraitDropdown);
+                locationTraitTR.appendChild(locationTraitDropdownTD);
+                optionsTable.appendChild(locationTraitTR);
                 }
 
                 function toggleShowLocationCardNumbers(show) {
