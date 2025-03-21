@@ -32,6 +32,7 @@
             let svgWidth, svgHeight;
             let showLocationCardNumbers = false;
             let locationTraits = [];
+            let selectedTrait = "None";
 
             // Get the dimensions of the svg element
             function getSvgDimensions() {
@@ -231,7 +232,8 @@
             // This function should allow an administrator to create
             // links for locations, given the location's coordinates on the map,
             // the type of location, and the page it should link to
-            function createLocationButton(locationX, locationY, isPivotal, locationLink) {
+            function createLocationButton(locationX, locationY, isPivotal, locationLink, 
+                                          trait1, trait2, trait3, trait4, trait5) {
                 let scaleFactor = getScaleFactor();
                 let svg = document.getElementById("mapSVG");
                 const gradientOffsetX = 1720;
@@ -263,6 +265,11 @@
                     newCircle.setAttribute("class", "locationButton circle");
                     newCircle.setAttribute("data-x", locationX);
                     newCircle.setAttribute("data-y", locationY);
+                    newCircle.setAttribute("data-trait1", trait1);
+                    newCircle.setAttribute("data-trait2", trait2);
+                    newCircle.setAttribute("data-trait3", trait3);
+                    newCircle.setAttribute("data-trait4", trait4);
+                    newCircle.setAttribute("data-trait5", trait5);
                     newLink.appendChild(newCircle);
                 }
                 // Otherwise, make it a square rotated 45 degrees
@@ -289,6 +296,11 @@
                     newSquare.setAttribute("class", "locationButton square");
                     newSquare.setAttribute("data-x", locationX);
                     newSquare.setAttribute("data-y", locationY);
+                    newSquare.setAttribute("data-trait1", trait1);
+                    newSquare.setAttribute("data-trait2", trait2);
+                    newSquare.setAttribute("data-trait3", trait3);
+                    newSquare.setAttribute("data-trait4", trait4);
+                    newSquare.setAttribute("data-trait5", trait5);
                     newLink.appendChild(newSquare);
                 }
             }
@@ -307,7 +319,7 @@
                     if (svgChild.getAttribute("class") == "locationLink") {
                         for (const linkChild of svgChild.children) {
                             // Update pivotal location button positions
-                            if (linkChild.getAttribute("class") == "locationButton circle") {
+                            if (linkChild.getAttribute("class").includes("locationButton circle")) {
                                 // Calculate
                                 let originalX = Number(linkChild.getAttribute("data-x"));
                                 let originalY = Number(linkChild.getAttribute("data-y"));
@@ -322,7 +334,7 @@
                                 linkChild.setAttribute("r", scaledRadius);
                             }
                             // Update non-pivotal location button positions
-                            else if (linkChild.getAttribute("class") == "locationButton square") {
+                            else if (linkChild.getAttribute("class").includes("locationButton square")) {
                                 // Calculate
                                 const standardLength = 111;
                                 let originalX = Number(linkChild.getAttribute("data-x"));
@@ -459,13 +471,19 @@
             for (const location of locationData) {
                 // Only create location buttons for locations on this map
                 if (location["set"] == "legacyArcology") {
-                    let locationX = location["x"];
-                    let locationY = location["y"];
-                    let locationIsPivotal = location["isPivotal"];
-                    let locationURL = location["url"];
-                    let locationCardNumber = location["setCardNum"];
+                    const locationX = location["x"];
+                    const locationY = location["y"];
+                    const locationIsPivotal = location["isPivotal"];
+                    const locationURL = location["url"];
+                    const locationCardNumber = location["setCardNum"];
+                    const trait1 = location["trait1"]
+                    const trait2 = location["trait2"]
+                    const trait3 = location["trait3"]
+                    const trait4 = location["trait4"]
+                    const trait5 = location["trait5"]
 
-                    createLocationButton(locationX, locationY, locationIsPivotal, locationURL);
+                    createLocationButton(locationX, locationY, locationIsPivotal, locationURL,
+                                         trait1, trait2, trait3, trait4, trait5);
                     createLocationCardNumber(locationX, locationY, locationCardNumber);
                 }
             }
@@ -826,11 +844,15 @@
                 const locationTraitDropdown = document.createElement("select");
                 locationTraitDropdown.setAttribute("id", "traits");
                 locationTraitDropdown.setAttribute("name", "traits");
-                for (trait of locationTraits) {
-                    console.log(trait);
+                locationTraitDropdown.setAttribute("onchange", "highlightLocations();");
+                // Populate dropdown list
+                for (const trait of locationTraits) {
                     const traitOption = document.createElement("option");
                     traitOption.setAttribute("value", trait);
                     traitOption.append(trait);
+                    // Keep selected trait even after closing menu
+                    if (trait == selectedTrait)
+                        traitOption.setAttribute("selected", true);
                     locationTraitDropdown.appendChild(traitOption);
                 }
                 locationTraitDropdownTD.appendChild(locationTraitDropdown);
@@ -861,6 +883,33 @@
                 }
             }
 
+            // This function will highlight locations based on what is selected in the options menu
+            function highlightLocations() {
+                // Get the selection
+                const traitSelect = document.getElementById("traits");
+                selectedTrait = traitSelect.value;
+
+                // Iterate over all of the SVG children
+                for (const svgChild of svgElem.children) {
+                    // Only look at the location links
+                    if (svgChild.getAttribute("class") == "locationLink") {
+                        for (const linkChild of svgChild.children) {
+                            // Change the class of selected location buttons
+                            if (linkChild.getAttribute("data-trait1") == selectedTrait ||
+                                linkChild.getAttribute("data-trait2") == selectedTrait ||
+                                linkChild.getAttribute("data-trait3") == selectedTrait ||
+                                linkChild.getAttribute("data-trait4") == selectedTrait ||
+                                linkChild.getAttribute("data-trait5") == selectedTrait) {
+                                linkChild.setAttribute("class", linkChild.getAttribute("class") + " highlighted");
+                            } else {
+                                linkChild.setAttribute("class", linkChild.getAttribute("class").replaceAll(" highlighted", ""));
+                            }
+                        }
+                    }
+                }
+            }
+
+            // This function destroys the menu
             function closeMenu() {
                 // Remove the SVG element holding the graphics
                 let svg = document.getElementById("menuSVG");

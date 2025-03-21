@@ -177,7 +177,11 @@ a:active {
 .locationButton {
     stroke-opacity: 0%;
     fill-opacity: 0%; /* toggle this between 0% and 40% to visualize your buttons */
-    fill: red;
+    fill: lime;
+}
+
+.highlighted {
+    fill-opacity: 40%;
 }
 
 .locationButton:hover {
