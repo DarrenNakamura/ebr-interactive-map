@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/29df3eab-f8cc-4f89-a9bd-a2e10356fa36)
+![image](https://github.com/user-attachments/assets/490726c4-2e02-4eab-9019-3c59bc7938ca)
 
 # ebr-interactive-map
 A web-based interactive map for use alongside the cooperative adventure card game Earthborne Rangers
