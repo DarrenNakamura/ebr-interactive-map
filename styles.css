@@ -130,18 +130,13 @@ a:active {
     color:rgb(11, 40, 30);
     background-color: rgb(253, 255, 238);
     border: 1px;
-    border-style: solid;
+    border-style: none;
     border-color: rgb(11, 40, 30);
     height: 100px;
     width: 100%;
     margin-bottom: 4px;
+    margin-left: -14px;
     padding: 0px;
-}
-
-.linkTableText {
-    text-align: center;
-    font-size: xx-large;
-    font-weight: bold;
 }
 
 .linkIcon {

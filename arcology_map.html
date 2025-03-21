@@ -29,7 +29,7 @@
             let svgElem = document.getElementById("mapSVG");
             let map = document.getElementById("mapImage");
             let svgWidth, svgHeight;
-            let showLocationCardNumbers = true;
+            let showLocationCardNumbers = false;
 
             // Get the dimensions of the svg element
             function getSvgDimensions() {
@@ -735,17 +735,13 @@
                 valleyLinkTable.setAttribute("class", "menuLinkTable");
                 let valleyLinkRow = document.createElement("tr");
                 let valleyLinkIconTD = document.createElement("td");
-                valleyLinkIconTD.setAttribute("width", "100px");
+                valleyLinkIconTD.setAttribute("width", "380px");
                 let valleyLinkIcon = document.createElement("img");
-                valleyLinkIcon.setAttribute("src", "Assets/valley-placeholder-art.png");
+                valleyLinkIcon.setAttribute("src", "Assets/banner-lure.jpg");
+                valleyLinkIcon.setAttribute("alt", "Lure of the Valley");
                 valleyLinkIcon.setAttribute("class", "linkIcon");
-                let valleyLinkTextTD = document.createElement("td");
-                valleyLinkTextTD.setAttribute("class", "linkTableText");
-                let valleyLinkText = "Lure of the Valley";
                 valleyLinkIconTD.appendChild(valleyLinkIcon);
-                valleyLinkTextTD.append(valleyLinkText);
                 valleyLinkRow.appendChild(valleyLinkIconTD);
-                valleyLinkRow.appendChild(valleyLinkTextTD);
                 valleyLinkTable.appendChild(valleyLinkRow);
                 valleyLink.appendChild(valleyLinkTable);
                 menuDiv.appendChild(valleyLink);
@@ -757,17 +753,13 @@
                 arcologyLinkTable.setAttribute("class", "menuLinkTable");
                 let arcologyLinkRow = document.createElement("tr");
                 let arcologyLinkIconTD = document.createElement("td");
-                arcologyLinkIconTD.setAttribute("width", "100px");
+                arcologyLinkIconTD.setAttribute("width", "380px");
                 let arcologyLinkIcon = document.createElement("img");
-                arcologyLinkIcon.setAttribute("src", "Assets/arcology-placeholder-art.png");
+                arcologyLinkIcon.setAttribute("src", "Assets/banner-legacy.jpg");
+                arcologyLinkIcon.setAttribute("alt", "Legacy of the Ancestors");
                 arcologyLinkIcon.setAttribute("class", "linkIcon");
-                let arcologyLinkTextTD = document.createElement("td");
-                arcologyLinkTextTD.setAttribute("class", "linkTableText");
-                let arcologyLinkText = "Legacy of the Ancestors";
                 arcologyLinkIconTD.appendChild(arcologyLinkIcon);
-                arcologyLinkTextTD.append(arcologyLinkText);
                 arcologyLinkRow.appendChild(arcologyLinkIconTD);
-                arcologyLinkRow.appendChild(arcologyLinkTextTD);
                 arcologyLinkTable.appendChild(arcologyLinkRow);
                 arcologyLink.appendChild(arcologyLinkTable);
                 menuDiv.appendChild(arcologyLink);
