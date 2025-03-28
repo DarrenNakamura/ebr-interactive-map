@@ -190,7 +190,6 @@ a:active {
 }
 
 .highlighted {
-    /*fill-opacity: 40%;*/
     animation-duration: 2s;
     animation-iteration-count: infinite;
 }
