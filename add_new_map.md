@@ -1,5 +1,5 @@
 # Brief Tutorial on Adding a New Map
-As of the initial publication of this interactive map too, there are two map images, the Valley from the base Lure of the Valley campaign, and the Arcology from the Legacy of the Ancestors expansion. There may be more maps added in the future, and I may not be around to do it. Hence, this tutorial.
+As of the initial publication of this interactive map tool, there are two map images, the Valley from the base _Lure of the Valley_ campaign, and the Arcology from the _Legacy of the Ancestors_ expansion. There may be more maps added in the future, and I may not be around to do it. Hence, this tutorial.
 
 ### Step 1: Prepare and upload the map image and map select banner image
 The map image should be a high-quality `.jpg` file, uploaded into the `Assets` folder. Keep a copy handy in an image editing software, because we will have to find certain coordinates later. In order to make some future steps easier, try to use an image that is at the same scale as the current images. The boxart banner image should be a `.jpg` with dimensions 380x140. Upload this to the Assets folder as well.
