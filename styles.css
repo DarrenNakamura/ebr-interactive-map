@@ -174,14 +174,25 @@ a:active {
     fill-opacity: 40%;
 }
 
+@keyframes locationHighlight {
+    0%   {fill-opacity: 20%;}
+    40%  {fill-opacity: 50%;}
+    60%  {fill-opacity: 50%;}
+    100% {fill-opacity: 20%;}
+}
+
 .locationButton {
     stroke-opacity: 0%;
     fill-opacity: 0%; /* toggle this between 0% and 40% to visualize your buttons */
-    fill: lime;
+    fill: forestgreen;
+    animation-name: locationHighlight;
+    animation-duration: 0s;
 }
 
 .highlighted {
-    fill-opacity: 40%;
+    /*fill-opacity: 40%;*/
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
 }
 
 .locationButton:hover {
