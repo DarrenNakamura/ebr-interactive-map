@@ -184,14 +184,14 @@ a:active {
 .locationButton {
     stroke-opacity: 0%;
     fill-opacity: 0%; /* toggle this between 0% and 40% to visualize your buttons */
-    fill: forestgreen;
+    fill: limegreen;
     animation-name: locationHighlight;
     animation-duration: 0s;
 }
 
 .highlighted {
     /*fill-opacity: 40%;*/
-    animation-duration: 1.5s;
+    animation-duration: 2s;
     animation-iteration-count: infinite;
 }
 
