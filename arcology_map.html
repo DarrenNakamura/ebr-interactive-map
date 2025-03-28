@@ -828,7 +828,7 @@
                 const locationCardNumberCheckboxTD = document.createElement("td");
                 let locationCardNumberCheckbox = document.createElement("input")
                 locationCardNumberCheckbox.setAttribute("type", "checkbox");
-                locationCardNumberCheckbox.setAttribute("onclick", "toggleShowLocationCardNumbers(this.checked);");
+                locationCardNumberCheckbox.setAttribute("onmousedown", "toggleShowLocationCardNumbers(!this.checked);");
                 locationCardNumberCheckbox.checked = showLocationCardNumbers;
                 locationCardNumberCheckboxTD.appendChild(locationCardNumberCheckbox);
                 locationCardNumberTR.appendChild(locationCardNumberCheckboxTD);
