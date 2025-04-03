@@ -556,7 +556,7 @@ var locationData = [
     },
     {
         "name"       : "The Chimney",
-        "url"        : null,
+        "url"        : "the_chimney",
         "set"        : "legacyArcology",
         "setCardNum" : 1,
         "isPivotal"  : true,
@@ -571,7 +571,7 @@ var locationData = [
     },
     {
         "name"       : "Severed Artery",
-        "url"        : null,
+        "url"        : "severed_artery",
         "set"        : "legacyArcology",
         "setCardNum" : 2,
         "isPivotal"  : true,
@@ -586,7 +586,7 @@ var locationData = [
     },
     {
         "name"       : "Branching Artery",
-        "url"        : null,
+        "url"        : "branching_artery/",
         "set"        : "legacyArcology",
         "setCardNum" : 3,
         "isPivotal"  : true,
@@ -601,7 +601,7 @@ var locationData = [
     },
     {
         "name"       : "Terminal Artery",
-        "url"        : null,
+        "url"        : "terminal_artery",
         "set"        : "legacyArcology",
         "setCardNum" : 4,
         "isPivotal"  : true,
@@ -616,7 +616,7 @@ var locationData = [
     },
     {
         "name"       : "Mycelial Conclave",
-        "url"        : null,
+        "url"        : "mycelial_conclave",
         "set"        : "legacyArcology",
         "setCardNum" : 5,
         "isPivotal"  : true,
@@ -631,7 +631,7 @@ var locationData = [
     },
     {
         "name"       : "The Verdant Sphere",
-        "url"        : null,
+        "url"        : "the_verdant_sphere/",
         "set"        : "legacyArcology",
         "setCardNum" : 7,
         "isPivotal"  : true,
@@ -646,7 +646,7 @@ var locationData = [
     },
     {
         "name"       : "Arboretum of Memory",
-        "url"        : null,
+        "url"        : "arboretum_of_memory/",
         "set"        : "legacyArcology",
         "setCardNum" : 6,
         "isPivotal"  : true,
@@ -661,7 +661,7 @@ var locationData = [
     },
     {
         "name"       : "The Cage",
-        "url"        : null,
+        "url"        : "the_cage/",
         "set"        : "legacyArcology",
         "setCardNum" : 20,
         "isPivotal"  : true,
@@ -676,7 +676,7 @@ var locationData = [
     },
     {
         "name"       : "Oasis of Sunlight",
-        "url"        : null,
+        "url"        : "oasis_of_sunlight/",
         "set"        : "legacyArcology",
         "setCardNum" : 10,
         "isPivotal"  : false,
@@ -691,7 +691,7 @@ var locationData = [
     },
     {
         "name"       : "Drenching Chamber",
-        "url"        : null,
+        "url"        : "drenching_chamber/",
         "set"        : "legacyArcology",
         "setCardNum" : 9,
         "isPivotal"  : false,
@@ -706,7 +706,7 @@ var locationData = [
     },
     {
         "name"       : "Desert of Endless Night",
-        "url"        : null,
+        "url"        : "desert_of_endless_night",
         "set"        : "legacyArcology",
         "setCardNum" : 11,
         "isPivotal"  : false,
@@ -721,7 +721,7 @@ var locationData = [
     },
     {
         "name"       : "Orlin's Vault",
-        "url"        : null,
+        "url"        : "orlins_vault",
         "set"        : "legacyArcology",
         "setCardNum" : 13,
         "isPivotal"  : false,
@@ -736,7 +736,7 @@ var locationData = [
     },
     {
         "name"       : "Scuttler Network",
-        "url"        : null,
+        "url"        : "scuttler_network",
         "set"        : "legacyArcology",
         "setCardNum" : 14,
         "isPivotal"  : false,
@@ -751,7 +751,7 @@ var locationData = [
     },
     {
         "name"       : "Silent Dormitories",
-        "url"        : null,
+        "url"        : "silent_dormitories",
         "set"        : "legacyArcology",
         "setCardNum" : 16,
         "isPivotal"  : false,
@@ -766,7 +766,7 @@ var locationData = [
     },
     {
         "name"       : "Cerulean Curtain",
-        "url"        : null,
+        "url"        : "cerulean_curtain/",
         "set"        : "legacyArcology",
         "setCardNum" : 12,
         "isPivotal"  : false,
@@ -781,7 +781,7 @@ var locationData = [
     },
     {
         "name"       : "The Cistern",
-        "url"        : null,
+        "url"        : "the_cistern",
         "set"        : "legacyArcology",
         "setCardNum" : 15,
         "isPivotal"  : false,
@@ -796,7 +796,7 @@ var locationData = [
     },
     {
         "name"       : "Carbonforged Maze",
-        "url"        : null,
+        "url"        : "carbonforged_maze",
         "set"        : "legacyArcology",
         "setCardNum" : 17,
         "isPivotal"  : false,
@@ -811,7 +811,7 @@ var locationData = [
     },
     {
         "name"       : "Inverted Forest",
-        "url"        : null,
+        "url"        : "inverted_forest",
         "set"        : "legacyArcology",
         "setCardNum" : 18,
         "isPivotal"  : false,
@@ -826,7 +826,7 @@ var locationData = [
     },
     {
         "name"       : "The Rootway",
-        "url"        : null,
+        "url"        : "the_rootway",
         "set"        : "legacyArcology",
         "setCardNum" : 19,
         "isPivotal"  : false,
@@ -841,7 +841,7 @@ var locationData = [
     },
     {
         "name"       : "Talpid's Squeeze",
-        "url"        : null,
+        "url"        : "talpids_squeeze",
         "set"        : "legacyArcology",
         "setCardNum" : 8,
         "isPivotal"  : false,
