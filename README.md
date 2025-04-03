@@ -10,7 +10,6 @@ A web-based interactive map for use alongside the cooperative adventure card gam
 * Assets/banner-lure: The Lure of the Valley banner that appears in the menu for map selection
 * Assets/EBR001_Valley Map_eng.jpg: The map image from Lure of the Valley
 * Assets/EBR023_Deluxe LotA Map_eng.jpg: The map image from Legacy of the Ancestors
-* Assets/LV-9slice-*.png: These are the nine pieces of the Living Valley popup background. (Deprecated, pending deletion)
 * locations.js: This is a JavaScript file containing one variable named `locationData`, which is an array containing information about all of the current locations on the map
 * styles.css: This is a standard CSS file containing the styles for making the page and links look a certain way
 * valley_map.html: This is the main HTML file of the Lure of the Valley map, containing an SVG to render the map and JavaScript to allow interactivity
